@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/menu_item_home_pelanggan"
+        android:icon="@drawable/ic_baseline_supervisor_account_24"
+        android:title="Pelanggan Baru"
+        app:actionLayout="@layout/custom_menu_pelanggan"
+        app:showAsAction="always|withText" />
+    <item
+        android:id="@+id/menu_item_home_notif"
+        android:icon="@drawable/ic_baseline_shopping_cart_24"
+        android:title="Pesanan"
+        app:actionLayout="@layout/custom_menu"
+        app:showAsAction="always|withText" />
+
+</menu>

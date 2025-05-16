@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/menu_row_produk_opname"
+        android:title="Sesuaikan Stok" />
+
+    <item
+        android:id="@+id/menu_row_produk_ubah"
+        android:title="Ubah Produk" />
+
+    <item
+        android:id="@+id/menu_row_produk_hapus"
+        android:title="Hapus Produk" />
+
+
+</menu>

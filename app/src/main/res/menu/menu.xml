@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/navigation_home"
+        android:icon="@drawable/ic_round_home_24"
+        android:title="Beranda" />
+
+    <item
+        android:id="@+id/navigation_pesanan"
+        android:icon="@drawable/ic_round_format_list_bulleted_24"
+        android:title="Pesanan" />
+
+    <item
+        android:id="@+id/navigation_produk"
+        android:title="" />
+
+    <item
+        android:id="@+id/navigation_pelanggan"
+        android:icon="@drawable/ic_round_supervisor_account_24"
+        android:title="Pelanggan" />
+
+    <item
+        android:id="@+id/navigation_akun"
+        android:icon="@drawable/ic_round_account_circle_24"
+        android:title="Akun" />
+
+</menu>

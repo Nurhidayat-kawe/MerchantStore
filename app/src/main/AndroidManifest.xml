@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.yyaayyaatt.merchantstore">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission
+        android:name="android.permission.BLUETOOTH"
+        android:maxSdkVersion="30" />
+    <uses-permission
+        android:name="android.permission.BLUETOOTH_PRIVILEGED"
+        tools:ignore="ProtectedPermissions" />
+    <uses-permission
+        android:name="android.permission.BLUETOOTH_ADMIN"
+        android:maxSdkVersion="30" />
+    <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADVERTISE" />
+    <uses-permission
+        android:name="android.permission.BLUETOOTH_SCAN"
+        android:usesPermissionFlags="neverForLocation" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+    <uses-feature
+        android:name="android.hardware.bluetooth_le"
+        android:required="true" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/logo"
+        android:label="@string/app_name"
+        android:requestLegacyExternalStorage="true"
+        android:roundIcon="@drawable/logo"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.MerchantStore"
+        android:usesCleartextTraffic="true">
+        <activity
+            android:name=".DetailReferralActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ReferralActivity"
+            android:exported="false" />
+        <activity
+            android:name=".PointMemberActivity"
+            android:exported="false" />
+        <activity
+            android:name=".LapTransaksiPenjualanPointActivity"
+            android:exported="false" />
+
+        <service
+            android:name=".service.MyFirebaseMessagingService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+
+        <activity android:name=".SetJamOperasionalActivity" />
+        <activity android:name=".JamOperasionalActivity" />
+        <activity android:name=".DetailPelanggansActivity" />
+        <activity android:name=".PelanggansActivity" />
+        <activity
+            android:name=".SetDiskonActivity"
+            android:label="Set Diskon" />
+        <activity
+            android:name=".PelangganBaruActivity"
+            android:label="Pelanggan Baru" />
+        <activity
+            android:name=".PendapatanActivity"
+            android:label="Pendapatan" />
+        <activity
+            android:name=".LapTransaksiPenjualanActivity"
+            android:label="Rekap Transaksi" />
+        <activity
+            android:name=".LaporanPenjualanAllActivity"
+            android:label="Penjualan Per Produk" />
+        <activity android:name=".UpdateProdukActivity" />
+        <activity
+            android:name=".LaporanPenjualanActivity"
+            android:label="Penjualan Produk Hari Ini" />
+        <activity
+            android:name=".CetakNotaTransActivity"
+            android:label="Cetak Nota Penjualan" />
+        <activity
+            android:name=".DetailPesananActivity"
+            android:label="Detail Pesanan" />
+        <activity
+            android:name=".DetailPesananPointActivity"
+            android:label="Detail Pesanan Point" />
+        <activity
+            android:name=".DetailPelangganActivity"
+            android:label="Detail Pelanggan" />
+        <activity
+            android:name=".DetailProdukLarisActivity"
+            android:label="Detail Produk Terlaris" />
+        <activity
+            android:name=".DetailProdukActivity"
+            android:label="Detail Produks" />
+        <activity
+            android:name=".PesananActivity"
+            android:label="Pesanan Baru" />
+        <activity
+            android:name=".ProdukTerlarisActivity"
+            android:label="Produk Terlaris" />
+        <activity
+            android:name=".UbahStokActivity"
+            android:label="Ubah Stok" />
+        <activity
+            android:name=".AddProdukActivity"
+            android:label="Tambah Produk" />
+        <activity
+            android:name=".SplashScreenActivity"
+            android:exported="true"
+            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".HomeActivity"
+            android:exported="true"
+            android:label="AHMAD CELL" />
+        <activity
+            android:name=".LoginActivity"
+            android:label="L O G I N" />
+
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
+    </application>
+
+</manifest>
