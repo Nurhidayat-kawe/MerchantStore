@@ -67,10 +67,6 @@ public interface BaseApiService {
     @GET("getPelangganTop.php")
     Call<ResponsePelangganTop> getPelangganTop();
 
-    //
-//    @GET("getTulisanMu.php")
-//    Call<ResponseTulisanku> getTulusanMu();
-//
     @GET("getTransaksiByStatus.php")
     Call<ResponseTransaksi> getPesanan();
 
@@ -168,22 +164,6 @@ public interface BaseApiService {
     @FormUrlEncoded
     @POST("opname.php")
     Call<ResponseProduk> opname(@Field("id_produk") String id_produk, @Field("stok_baru") int stok_baru);
-//
-//    @FormUrlEncoded
-//    @POST("getBooksByKat.php")
-//    Call<ResponseProduk> getBookByKat(@Field("kat") String kat);
-//
-//    @FormUrlEncoded
-//    @POST("getKaryakuById.php")
-//    Call<ResponseTulisanku> getTulisanku(@Field("id_pengguna") long id_pengguna);
-
-//    @FormUrlEncoded
-//    @POST("getEventByKey.php")
-//    Call<ResponseEvent> getEventByKey(@Field("key") String key);
-
-//    @FormUrlEncoded
-//    @POST("getDetailDiskusiById.php")
-//    Call<ResponseRuangDiskusiDetail> getDiskusiDetail(@Field("id_diskusi") int id_diskusi);
 
     @FormUrlEncoded
     @POST("getUserById.php")
@@ -231,38 +211,6 @@ public interface BaseApiService {
     Call<ResponseProduk> setDiskon(@Field("id_produk") String id_produk,
                                    @Field("jml_beli") String jml_beli,
                                    @Field("harga_diskon") String harga_diskon);
-
-//    @FormUrlEncoded
-//    @POST("simpanKaryaku.php")
-//    Call<ResponseTulisanku> simpanKaryaku(@Field("judul") String judul,
-//                                      @Field("isi") String isi,
-//                                      @Field("sinopsis") String sinopsis,
-//                                      @Field("kategori") String kategori,
-//                                      @Field("id_pengguna") String id_pengguna,
-//                                      @Field("nama") String nama,
-//                                      @Field("sampul") String sampul);
-
-//    @FormUrlEncoded
-//    @POST("likesTulisan.php")
-//    Call<ResponseLikes> likeTulisan(@Field("id_karya_tulis") long id_karya_tulis,
-//                                    @Field("id_pengguna") String id_pengguna);
-//    @FormUrlEncoded
-//    @POST("simpanSaran.php")
-//    Call<ResponseSaran> simpanSaran(@Field("id_pengguna") String id_pengguna,
-//                                    @Field("isi") String isi);
-//
-//    @FormUrlEncoded
-//    @POST("simpanSaran.php")
-//    Call<ResponseUsers> updatePoto(@Field("id_user") int id_user,
-//                                   @Field("img") String img);
-//
-//
-//    @FormUrlEncoded
-//    @POST("posting.php")
-//    Call<ResponseBerita> posting(@Field("judul") String judul,
-//                                 @Field("isi") String isi,
-//                                 @Field("img_berita") String img_berita);
-
 
     @FormUrlEncoded
     @POST("getTransaksiPointByStatusUser.php")
