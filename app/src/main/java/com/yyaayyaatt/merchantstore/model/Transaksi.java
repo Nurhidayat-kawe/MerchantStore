@@ -81,6 +81,8 @@ public class Transaksi {
     private String alamat_cabang;
     @SerializedName("telp_cabang")
     private String telp_cabang;
+    @SerializedName("trans")
+    private int trans;
 
     public int getId() {
         return id;
@@ -368,5 +370,13 @@ public class Transaksi {
 
     public void setPoint(String point) {
         this.point = point;
+    }
+
+    public int getTrans() {
+        return trans;
+    }
+
+    public void setTrans(int trans) {
+        this.trans = trans;
     }
 }

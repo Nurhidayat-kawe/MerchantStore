@@ -20,6 +20,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.yyaayyaatt.merchantstore.adapter.DetailPesananRecylerAdapter;
+import com.yyaayyaatt.merchantstore.model.Point;
+import com.yyaayyaatt.merchantstore.model.ResponsePoint;
 import com.yyaayyaatt.merchantstore.model.ResponseTransaksi;
 import com.yyaayyaatt.merchantstore.model.ResponseUsers;
 import com.yyaayyaatt.merchantstore.model.Transaksi;
@@ -61,6 +63,15 @@ public class DetailPesananActivity extends AppCompatActivity {
     List<Transaksi> transaksis = new ArrayList<>();
     private RecyclerView.Adapter mAdapter;
     private RecyclerView mRecycler;
+    String nominal="";
+
+    public String getNominal() {
+        return nominal;
+    }
+
+    public void setNominal(String nominal) {
+        this.nominal = nominal;
+    }
 
     public double getSubTotal() {
         return subTotal;
@@ -117,8 +128,8 @@ public class DetailPesananActivity extends AppCompatActivity {
 //        tv_sub_total.setText("Rp."+nf.format(Double.parseDouble(i.getStringExtra("total"))));
 
         tv_tanggal.setText(day+"-"+bln+"-"+thn + "," + i.getStringExtra("jam").substring(0, 5));
-
-
+        //TODO Cek Bonus Point
+        cekBonusPoint();
         if (i.getStringExtra("status_bayar").equals("belum")) {
             tv_status_bayar.setText("Belum bayar");
             tv_status_bayar.setTextColor(ContextCompat.getColor(context, R.color.red));
@@ -171,8 +182,8 @@ public class DetailPesananActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 updateStatus(id_trans, "selesai");
-
-                if(getSubTotal() >= 25000) {
+                System.out.println("Nominal>>>"+Double.parseDouble(getNominal().toString()));
+                if(getSubTotal() >= Double.parseDouble(getNominal().toString())) {
                     updatePoint(""+i.getIntExtra("id_user",0),""+calculatePoints(getSubTotal()));
                 }
             }
@@ -195,8 +206,8 @@ public class DetailPesananActivity extends AppCompatActivity {
     }
 
     public int calculatePoints(double totalPurchase) {
-        double rupiahPerPoint = 25000;
-        return (int) Math.round(totalPurchase / rupiahPerPoint);
+        double rupiahPerPoint = Double.parseDouble(getNominal());
+        return (int) Math.floor(totalPurchase / rupiahPerPoint);
     }
 
     private void getPesanan(String key) {
@@ -329,6 +340,44 @@ public class DetailPesananActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<ResponseUsers> call, Throwable t) {
+                Log.e("debug", "onFailure: ERROR > " + t.toString());
+            }
+        });
+    }
+    private void cekTransPertama(String id_user) {
+        Call<ResponseTransaksi> getdata = mApiService.cekTransPertama(id_user);
+        getdata.enqueue(new Callback<ResponseTransaksi>() {
+            @Override
+            public void onResponse(Call<ResponseTransaksi> call, Response<ResponseTransaksi> response) {
+                if (response.isSuccessful()) {
+                    if (response.body().getmKode().equals("1")) {
+                        if(response.body().getResult().get(0).getTrans()==1){
+                            
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseTransaksi> call, Throwable t) {
+                Log.e("debug", "onFailure: ERROR > " + t.toString());
+            }
+        });
+    }
+    private void cekBonusPoint() {
+        Call<ResponsePoint> getdata = mApiService.cekBonusPoint();
+        getdata.enqueue(new Callback<ResponsePoint>() {
+            @Override
+            public void onResponse(Call<ResponsePoint> call, Response<ResponsePoint> response) {
+                if (response.isSuccessful()) {
+                    if (response.body().getmKode().equals("1")) {
+                        setNominal(response.body().getResult().get(0).getNominal());
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponsePoint> call, Throwable t) {
                 Log.e("debug", "onFailure: ERROR > " + t.toString());
             }
         });

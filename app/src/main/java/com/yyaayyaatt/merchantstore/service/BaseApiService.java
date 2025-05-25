@@ -4,6 +4,7 @@ import com.yyaayyaatt.merchantstore.model.ResponseJamOperasional;
 import com.yyaayyaatt.merchantstore.model.ResponseKategori;
 import com.yyaayyaatt.merchantstore.model.ResponsePelanggan;
 import com.yyaayyaatt.merchantstore.model.ResponsePelangganTop;
+import com.yyaayyaatt.merchantstore.model.ResponsePoint;
 import com.yyaayyaatt.merchantstore.model.ResponseProduk;
 import com.yyaayyaatt.merchantstore.model.ResponseReferral;
 import com.yyaayyaatt.merchantstore.model.ResponseSatuan;
@@ -78,6 +79,8 @@ public interface BaseApiService {
 
     @GET("getReferrals.php")
     Call<ResponseReferral> getReferrals();
+    @GET("cekBonusPoint.php")
+    Call<ResponsePoint> cekBonusPoint();
 
     @FormUrlEncoded
     @POST("hapusProduk.php")
@@ -168,6 +171,10 @@ public interface BaseApiService {
     @FormUrlEncoded
     @POST("getUserById.php")
     Call<ResponseUsers> getProfil(@Field("id_user") int id_user);
+
+    @FormUrlEncoded
+    @POST("cekTransPertama.php")
+    Call<ResponseTransaksi> cekTransPertama(@Field("id_user") String id_user);
 
     @FormUrlEncoded
     @POST("login.php")
