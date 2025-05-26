@@ -30,3 +30,4 @@ google-services.json
 *.hprof
 app/src/main/java/com/yyaayyaatt/merchantstore/service/UtilsApi.java
 app/src/main/java/com/yyaayyaatt/merchantstore/service/UtilsApi.java
+app/release/app-release.aab
