@@ -184,7 +184,7 @@ public class DetailPesananActivity extends AppCompatActivity {
                 updateStatus(id_trans, "selesai");
                 System.out.println("Nominal>>>"+Double.parseDouble(getNominal().toString()));
                 if(getSubTotal() >= Double.parseDouble(getNominal().toString())) {
-                    updatePoint(""+i.getIntExtra("id_user",0),""+calculatePoints(getSubTotal()));
+                    cekTransPertama(""+i.getIntExtra("id_user",0));
                 }
             }
         });
@@ -344,6 +344,24 @@ public class DetailPesananActivity extends AppCompatActivity {
             }
         });
     }
+    private void updatePointRef(String id_user, String jml_bonus_point) {
+        Call<ResponseUsers> getdata = mApiService.updatePointUser(id_user, jml_bonus_point);
+        getdata.enqueue(new Callback<ResponseUsers>() {
+            @Override
+            public void onResponse(Call<ResponseUsers> call, Response<ResponseUsers> response) {
+                if (response.isSuccessful()) {
+                    if (response.body().getmKode().equals("1")) {
+                        Toast.makeText(context, "Transaksi Selesai, Bonus point telah ditambahkan ke User.", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseUsers> call, Throwable t) {
+                Log.e("debug", "onFailure: ERROR > " + t.toString());
+            }
+        });
+    }
     private void cekTransPertama(String id_user) {
         Call<ResponseTransaksi> getdata = mApiService.cekTransPertama(id_user);
         getdata.enqueue(new Callback<ResponseTransaksi>() {
@@ -352,7 +370,11 @@ public class DetailPesananActivity extends AppCompatActivity {
                 if (response.isSuccessful()) {
                     if (response.body().getmKode().equals("1")) {
                         if(response.body().getResult().get(0).getTrans()==1){
-                            
+                            updatePointRef(response.body().getResult().get(0).getReveral(),""+(calculatePoints(getSubTotal())+50));
+                            updatePoint(""+id_user,""+(calculatePoints(getSubTotal())+50));
+                        }else{
+                            updatePoint(""+id_user,""+calculatePoints(getSubTotal()));
+
                         }
                     }
                 }

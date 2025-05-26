@@ -83,6 +83,8 @@ public class Transaksi {
     private String telp_cabang;
     @SerializedName("trans")
     private int trans;
+    @SerializedName("reveral")
+    private String reveral;
 
     public int getId() {
         return id;
@@ -378,5 +380,13 @@ public class Transaksi {
 
     public void setTrans(int trans) {
         this.trans = trans;
+    }
+
+    public String getReveral() {
+        return reveral;
+    }
+
+    public void setReveral(String reveral) {
+        this.reveral = reveral;
     }
 }
