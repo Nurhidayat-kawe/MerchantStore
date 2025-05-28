@@ -24,7 +24,7 @@
             android:layout_height="match_parent">
 
             <ImageView
-                android:id="@+id/img_row_produk"
+                android:id="@+id/img_row_produk_retail"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
                 android:scaleType="centerCrop"
@@ -34,7 +34,7 @@
                 tools:src="@drawable/noimage" />
 
             <TextView
-                android:id="@+id/tv_row_nama_produk"
+                android:id="@+id/tv_row_nama_produk_retail"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
@@ -46,11 +46,11 @@
                 android:textSize="16sp"
                 app:fontFamily="@font/roboto_condensed_regular"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/img_row_produk"
+                app:layout_constraintStart_toEndOf="@+id/img_row_produk_retail"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/tv_row_harga_jual"
+                android:id="@+id/tv_row_harga_jual_retail"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
@@ -59,11 +59,11 @@
                 android:textColor="@color/purple_700"
                 android:textSize="16sp"
                 android:textStyle="bold"
-                app:layout_constraintStart_toEndOf="@+id/img_row_produk"
-                app:layout_constraintTop_toBottomOf="@+id/tv_row_nama_produk" />
+                app:layout_constraintStart_toEndOf="@+id/img_row_produk_retail"
+                app:layout_constraintTop_toBottomOf="@+id/tv_row_nama_produk_retail" />
 
             <TextView
-                android:id="@+id/tv_row_stok"
+                android:id="@+id/tv_row_stok_retail"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
@@ -74,45 +74,45 @@
                 android:paddingRight="5dp"
                 android:textColor="@color/white"
                 android:textStyle="bold"
-                app:layout_constraintStart_toEndOf="@+id/img_row_produk"
-                app:layout_constraintTop_toBottomOf="@+id/tv_row_harga_jual" />
+                app:layout_constraintStart_toEndOf="@+id/img_row_produk_retail"
+                app:layout_constraintTop_toBottomOf="@+id/tv_row_harga_jual_retail" />
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/button2"
+                android:id="@+id/btn_min_retail"
                 style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                android:layout_width="30dp"
-                android:layout_height="40dp"
+                android:layout_width="40dp"
+                android:layout_height="wrap_content"
                 android:text="-"
                 android:textAlignment="center"
                 android:textColor="@color/black"
                 android:textSize="16sp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/textView86"
+                app:layout_constraintEnd_toStartOf="@+id/tv_jml_retail"
                 app:layout_constraintHorizontal_chainStyle="packed" />
 
             <TextView
-                android:id="@+id/textView86"
+                android:id="@+id/tv_jml_retail"
                 android:layout_width="wrap_content"
                 android:layout_height="30dp"
                 android:gravity="center"
                 android:minWidth="32dp"
                 android:text="0"
-                app:layout_constraintBottom_toBottomOf="@+id/button2"
-                app:layout_constraintEnd_toStartOf="@+id/button"
-                app:layout_constraintTop_toTopOf="@+id/button2" />
+                app:layout_constraintBottom_toBottomOf="@+id/btn_min_retail"
+                app:layout_constraintEnd_toStartOf="@+id/btn_plus_retail"
+                app:layout_constraintTop_toTopOf="@+id/btn_min_retail" />
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/button"
+                android:id="@+id/btn_plus_retail"
                 style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                android:layout_width="30dp"
-                android:layout_height="40dp"
+                android:layout_width="40dp"
+                android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
                 android:text="+"
                 android:textColor="@color/black"
                 android:textSize="16sp"
-                app:layout_constraintBottom_toBottomOf="@+id/textView86"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_jml_retail"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/textView86" />
+                app:layout_constraintTop_toTopOf="@+id/tv_jml_retail" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
