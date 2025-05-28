@@ -162,14 +162,13 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
-                android:layout_marginEnd="8dp"
+                android:layout_marginEnd="4dp"
                 android:background="@drawable/btn_round_blue"
                 android:fontFamily="@font/roboto"
                 android:text="Omzet\nPenjualan"
                 android:textAllCaps="false"
                 android:textColor="@color/white"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintEnd_toStartOf="@+id/btn_akun_jam_operasional"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/btn_akun_penjualan" />
 
@@ -177,8 +176,8 @@
                 android:id="@+id/btn_akun_jam_operasional"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
                 android:background="@drawable/btn_round_blue"
                 android:fontFamily="@font/roboto"
@@ -186,8 +185,8 @@
                 android:textAllCaps="false"
                 android:textColor="@color/white"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/btn_akun_rekap_pendapatan" />
+                app:layout_constraintStart_toEndOf="@+id/btn_akun_rekap_pendapatan"
+                app:layout_constraintTop_toBottomOf="@+id/btn_akun_penjualan" />
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_akun_penukaran_point"
@@ -228,12 +227,29 @@
                 android:layout_marginEnd="8dp"
                 android:background="@drawable/btn_round_blue"
                 android:fontFamily="@font/roboto"
-                android:text="Data\nReferral"
+                android:text="Retail"
                 android:textAllCaps="false"
                 android:textColor="@color/white"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/btn_akun_point_member"
                 app:layout_constraintTop_toBottomOf="@+id/btn_akun_jam_operasional" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_akun_referral2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/btn_round_orange"
+                android:fontFamily="@font/roboto"
+                android:text="Retail"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/btn_akun_penukaran_point" />
 
             <TextView
                 android:id="@+id/tv_akun_version"

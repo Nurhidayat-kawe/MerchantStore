@@ -67,7 +67,7 @@ public class AkunFragment extends Fragment {
     TextView txtNama, tv_alamat, tv_version;
     String img_url = "";
     AppCompatButton btn_penjualan, btn_penjualan2, btn_rekap_transaksi,
-            btn_pendapatan, btn_jam_operasional,btn_akun_penukaran_point, btn_akun_points, btn_data_ref, btn_logout;
+            btn_pendapatan, btn_jam_operasional,btn_akun_penukaran_point, btn_akun_points, btn_data_ref, btn_retail, btn_logout;
     //upload
     private static final int PICK_IMAGE = 1;
     private static final int PERMISSION_REQUEST_STORAGE = 2;
@@ -94,6 +94,7 @@ public class AkunFragment extends Fragment {
         btn_pendapatan = view.findViewById(R.id.btn_akun_rekap_pendapatan);
         btn_akun_points = view.findViewById(R.id.btn_akun_point_member);
         btn_data_ref = view.findViewById(R.id.btn_akun_referral);
+        btn_retail = view.findViewById(R.id.btn_akun_referral2);
         btn_jam_operasional = view.findViewById(R.id.btn_akun_jam_operasional);
         btn_logout = view.findViewById(R.id.btn_akun_logout);
 
@@ -150,6 +151,14 @@ public class AkunFragment extends Fragment {
                 startActivity(new Intent(mContext, ReferralActivity.class));
             }
         });
+
+        btn_retail.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(mContext, ReferralActivity.class));
+            }
+        });
+
         btn_logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

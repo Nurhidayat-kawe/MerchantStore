@@ -372,7 +372,8 @@ public class DetailPesananActivity extends AppCompatActivity {
                         if(response.body().getResult().get(0).getTrans()==1){
                             updatePointRef(response.body().getResult().get(0).getReveral(),""+(calculatePoints(getSubTotal())+50));
                             updatePoint(""+id_user,""+(calculatePoints(getSubTotal())+50));
-                        }else{
+                        }else if(response.body().getResult().get(0).getTrans()>1){
+                            updatePointRef(response.body().getResult().get(0).getReveral(),""+(calculatePoints(getSubTotal())));
                             updatePoint(""+id_user,""+calculatePoints(getSubTotal()));
 
                         }

@@ -72,7 +72,7 @@ public class ProdukFragment extends Fragment {
         // Initialize array list
         ArrayList<String> arrayList = new ArrayList<>(0);
 
-        // Add title in array list
+        // Tambahkan title Sesuai dengan Kategori di DB
         arrayList.add("Voucher");
         arrayList.add("Headset");
         arrayList.add("Kabel Data");
@@ -95,6 +95,7 @@ public class ProdukFragment extends Fragment {
         arrayList.add("STB");
         arrayList.add("Anti Crack");
         arrayList.add("Autofocus");
+        arrayList.add("Retail");
 
         // Setup tab layout
         tabLayout.setupWithViewPager(viewPager);

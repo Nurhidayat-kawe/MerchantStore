@@ -38,6 +38,9 @@
         android:theme="@style/Theme.MerchantStore"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".ListRetailsActivity"
+            android:exported="false" />
+        <activity
             android:name=".DetailReferralActivity"
             android:exported="false" />
         <activity
