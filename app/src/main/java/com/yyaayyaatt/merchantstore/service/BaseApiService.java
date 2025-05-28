@@ -2,6 +2,7 @@ package com.yyaayyaatt.merchantstore.service;
 
 import com.yyaayyaatt.merchantstore.model.ResponseJamOperasional;
 import com.yyaayyaatt.merchantstore.model.ResponseKategori;
+import com.yyaayyaatt.merchantstore.model.ResponseKeranjang;
 import com.yyaayyaatt.merchantstore.model.ResponsePelanggan;
 import com.yyaayyaatt.merchantstore.model.ResponsePelangganTop;
 import com.yyaayyaatt.merchantstore.model.ResponsePoint;
@@ -155,6 +156,9 @@ public interface BaseApiService {
     @FormUrlEncoded
     @POST("getProdukById.php")
     Call<ResponseProduk> getProduk(@Field("id") String id);
+    @FormUrlEncoded
+    @POST("addKeranjangRetail.php")
+    Call<ResponseKeranjang> addKeranjang(@Field("id_user") String id_user, @Field("id_produk") String id_produk, @Field("aksi") String aksi);
 
     @FormUrlEncoded
     @POST("updateFotoProduk.php")
