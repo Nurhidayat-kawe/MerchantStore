@@ -85,6 +85,9 @@
             android:name=".LaporanPenjualanActivity"
             android:label="Penjualan Produk Hari Ini" />
         <activity
+            android:name=".TransaksiFromKeranjangActivity"
+            android:label="Penjualan Produk Retail" />
+        <activity
             android:name=".CetakNotaTransActivity"
             android:label="Cetak Nota Penjualan" />
         <activity
