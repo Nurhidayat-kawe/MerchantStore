@@ -1,12 +1,15 @@
 package com.yyaayyaatt.merchantstore;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatButton;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.util.Log;
@@ -37,6 +40,7 @@ public class ListRetailsActivity extends AppCompatActivity {
     List<Produk> produks = new ArrayList<>();
     private RecyclerView.Adapter mAdapter;
     private RecyclerView mRecycler;
+    AppCompatButton btn_lanjut;
 
     private RecyclerView.LayoutManager mLayoutManager;
     @Override
@@ -44,6 +48,7 @@ public class ListRetailsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_retails);
         mRecycler = findViewById(R.id.rv_retail);
+        btn_lanjut = findViewById(R.id.btn_retail_lanjut);
         mContext = ListRetailsActivity.this;
         progressDialog = new ProgressDialog(mContext);
         mApiService = UtilsApi.getAPIService();
@@ -62,6 +67,9 @@ public class ListRetailsActivity extends AppCompatActivity {
         progressDialog.show();
         getProduks("", "Retail");
 
+        btn_lanjut.setOnClickListener(v->{
+        startActivity(new Intent(mContext,TransaksiFromKeranjangActivity.class));
+        });
     }
     private void getProduks(String key, String kat) {
         produks.clear();
@@ -87,5 +95,11 @@ public class ListRetailsActivity extends AppCompatActivity {
                 progressDialog.dismiss();
             }
         });
+    }
+
+    @Override
+    protected void onPostCreate(@Nullable Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        getProduks("","Retail");
     }
 }
