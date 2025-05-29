@@ -29,6 +29,7 @@ import com.yyaayyaatt.merchantstore.LapTransaksiPenjualanActivity;
 import com.yyaayyaatt.merchantstore.LapTransaksiPenjualanPointActivity;
 import com.yyaayyaatt.merchantstore.LaporanPenjualanActivity;
 import com.yyaayyaatt.merchantstore.LaporanPenjualanAllActivity;
+import com.yyaayyaatt.merchantstore.ListRetailsActivity;
 import com.yyaayyaatt.merchantstore.LoginActivity;
 import com.yyaayyaatt.merchantstore.PendapatanActivity;
 import com.yyaayyaatt.merchantstore.PointMemberActivity;
@@ -152,12 +153,7 @@ public class AkunFragment extends Fragment {
             }
         });
 
-        btn_retail.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(mContext, ReferralActivity.class));
-            }
-        });
+        btn_retail.setOnClickListener(view1 -> startActivity(new Intent(mContext, ListRetailsActivity.class)));
 
         btn_logout.setOnClickListener(new View.OnClickListener() {
             @Override

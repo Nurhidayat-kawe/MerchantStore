@@ -227,7 +227,7 @@
                 android:layout_marginEnd="8dp"
                 android:background="@drawable/btn_round_blue"
                 android:fontFamily="@font/roboto"
-                android:text="Retail"
+                android:text="Data\nReferral"
                 android:textAllCaps="false"
                 android:textColor="@color/white"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -255,13 +255,13 @@
                 android:id="@+id/tv_akun_version"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
+                android:layout_marginTop="16dp"
                 android:layout_marginBottom="16dp"
                 android:textColor="@color/purple_700"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/btn_akun_point_member" />
+                app:layout_constraintTop_toBottomOf="@+id/btn_akun_referral2" />
 
 
             <!--                app:layout_constraintTop_toBottomOf="@+id/cardView7" />-->
