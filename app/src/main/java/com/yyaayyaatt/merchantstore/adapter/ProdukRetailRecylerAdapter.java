@@ -42,8 +42,18 @@ public class ProdukRetailRecylerAdapter extends RecyclerView.Adapter<ProdukRetai
     BaseApiService mApiService;
     SharedPrefManager sharedPrefManager;
 
+    String jml="";
     List<Produk> produks = new ArrayList<>();
     List<Keranjang> keranjangs = new ArrayList<>();
+    private boolean isLoading = false;
+
+    public String getJml() {
+        return jml;
+    }
+
+    public void setJml(String jml) {
+        this.jml = jml;
+    }
 
     public ProdukRetailRecylerAdapter(Context ctx, List<Produk> mList) {
         this.mList = mList;
@@ -78,24 +88,27 @@ public class ProdukRetailRecylerAdapter extends RecyclerView.Adapter<ProdukRetai
 
         holder.btn_plus.setOnClickListener(view -> {
             int x = Integer.parseInt(holder.jml.getText().toString());
-            cekStokBarang(mList.get(position).getId_produk(),x,"plus",position,holder);
+            cekStokBarang(mList.get(position).getId_produk(), x, "plus", position, holder);
         });
         holder.btn_min.setOnClickListener(view -> {
             int x = Integer.parseInt(holder.jml.getText().toString());
-            if(x>1) {
-                cekStokBarang(mList.get(position).getId_produk(),x,"min",position,holder);
-            }else{
-                cekStokBarang(mList.get(position).getId_produk(),x,"hapus",position,holder);
+            if (x > 1) {
+                cekStokBarang(mList.get(position).getId_produk(), x, "min", position, holder);
+            } else {
+                cekStokBarang(mList.get(position).getId_produk(), x, "hapus", position, holder);
             }
         });
-        getkeranjang(sharedPrefManager.getSpIdPengguna(),mList.get(position).getId_produk(),holder,position);
+//        setJml("0");
+        getkeranjang(holder, mList.get(position).getId_produk());
+//        holder.jml.setText(getJml());
         holder.itemView.setOnClickListener(v -> {
             Intent i = new Intent(ctx, DetailProdukActivity.class);
             i.putExtra("id", mList.get(position).getId_produk());
             ctx.startActivity(i);
         });
     }
-    private void cekStokBarang(String id_produk,int stok_keranjang,String aksi, int position, MyHolder holder) {
+
+    private void cekStokBarang(String id_produk, int stok_keranjang, String aksi, int position, MyHolder holder) {
         produks.clear();
         Call<ResponseProduk> getdata = mApiService.cekStokProduk(id_produk);
         getdata.enqueue(new Callback<ResponseProduk>() {
@@ -104,7 +117,7 @@ public class ProdukRetailRecylerAdapter extends RecyclerView.Adapter<ProdukRetai
                 if (response.isSuccessful()) {
                     if (response.body().getmKode().equals("1")) {
                         produks = response.body().getResult();
-                        if(aksi.equalsIgnoreCase("plus")) {
+                        if (aksi.equalsIgnoreCase("plus")) {
                             if (stok_keranjang < produks.get(0).getStok()) {
                                 keranjang(sharedPrefManager.getSpIdPengguna(), mList.get(position).getId_produk(), aksi, position, holder);
                                 notifyDataSetChanged();
@@ -112,10 +125,10 @@ public class ProdukRetailRecylerAdapter extends RecyclerView.Adapter<ProdukRetai
                             } else {
                                 Toast.makeText(ctx, "Maaf, Stok tidak cukup...", Toast.LENGTH_LONG).show();
                             }
-                        }else if (aksi.equalsIgnoreCase("min")){
+                        } else if (aksi.equalsIgnoreCase("min")) {
                             keranjang(sharedPrefManager.getSpIdPengguna(), mList.get(position).getId_produk(), aksi, position, holder);
                             notifyDataSetChanged();
-                        }else{
+                        } else {
                             keranjang(sharedPrefManager.getSpIdPengguna(), mList.get(position).getId_produk(), aksi, position, holder);
                             notifyDataSetChanged();
                         }
@@ -129,8 +142,17 @@ public class ProdukRetailRecylerAdapter extends RecyclerView.Adapter<ProdukRetai
             }
         });
     }
-    private void keranjang(String id_user,String id_produk,String aksi,int position,MyHolder holder) {
-        Call<ResponseKeranjang> getdata = mApiService.addKeranjang(id_user,id_produk,aksi);
+
+    public void setLoading(boolean loading) {
+        isLoading = loading;
+    }
+
+    public boolean isLoading() {
+        return isLoading;
+    }
+
+    private void keranjang(String id_user, String id_produk, String aksi, int position, MyHolder holder) {
+        Call<ResponseKeranjang> getdata = mApiService.addKeranjang(id_user, id_produk, aksi);
         getdata.enqueue(new Callback<ResponseKeranjang>() {
             @Override
             public void onResponse(Call<ResponseKeranjang> call, Response<ResponseKeranjang> response) {
@@ -138,7 +160,7 @@ public class ProdukRetailRecylerAdapter extends RecyclerView.Adapter<ProdukRetai
                     if (response.body().getmKode().equals("1")) {
 //                        Toast.makeText(ctx, "Tambah Keranjang Berhasil", Toast.LENGTH_SHORT).show();
 
-                        getkeranjang(sharedPrefManager.getSpIdPengguna(),mList.get(position).getId_produk(),holder,position);
+                        getkeranjang(holder,mList.get(position).getId_produk());
                     } else {
                         Toast.makeText(ctx, "Tambah Keranjang Gagal", Toast.LENGTH_SHORT).show();
                     }
@@ -151,16 +173,21 @@ public class ProdukRetailRecylerAdapter extends RecyclerView.Adapter<ProdukRetai
             }
         });
     }
-    private void getkeranjang(String id_user,String id_produk, MyHolder holder, int pos) {
-        Call<ResponseKeranjang> getdata = mApiService.getKeranjang(id_user,id_produk);
+
+    private void getkeranjang(MyHolder holder, String id_produk) {
+        Call<ResponseKeranjang> getdata = mApiService.getKeranjang(sharedPrefManager.getSpIdPengguna(),id_produk);
         getdata.enqueue(new Callback<ResponseKeranjang>() {
             @Override
             public void onResponse(Call<ResponseKeranjang> call, Response<ResponseKeranjang> response) {
                 if (response.isSuccessful()) {
-                    if (response.body().getmKode().equals("1")) {
-                        if (!response.body().getResult().isEmpty()) {
-                            holder.jml.setText(""+response.body().getResult().get(pos).getJml());
-                        }else{
+                    if (response.isSuccessful() && response.body() != null) {
+                        if (response.body().getmKode().equals("1")) {
+
+                            // Update UI langsung di holder
+
+                            Log.d("debug", "masuk: JML >>> " + String.valueOf(response.body().getResult()));
+                            holder.jml.setText(String.valueOf(response.body().getResult().get(0).getJml()));
+                        } else {
                             holder.jml.setText("0");
                         }
                     }
@@ -170,9 +197,11 @@ public class ProdukRetailRecylerAdapter extends RecyclerView.Adapter<ProdukRetai
             @Override
             public void onFailure(Call<ResponseKeranjang> call, Throwable t) {
                 Log.e("debug", "onFailure: ERROR > " + t.toString());
+                holder.jml.setText("0");
             }
         });
     }
+
     @Override
     public int getItemCount() {
         return mList.size();
