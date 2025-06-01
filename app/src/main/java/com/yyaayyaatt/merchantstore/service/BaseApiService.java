@@ -66,6 +66,9 @@ public interface BaseApiService {
     @GET("getPendapatanHarian.php")
     Call<ResponseTransaksi> getPendapatanHarian();
 
+    @GET("getPendapatanHarianRetails.php")
+    Call<ResponseTransaksi> getPendapatanHarianRetail();
+
     @GET("getPelangganTop.php")
     Call<ResponsePelangganTop> getPelangganTop();
 
@@ -161,7 +164,7 @@ public interface BaseApiService {
     Call<ResponseKeranjang> addKeranjang(@Field("id_user") String id_user, @Field("id_produk") String id_produk, @Field("aksi") String aksi);
     @FormUrlEncoded
     @POST("getKeranjangRetail.php")
-    Call<ResponseKeranjang> getKeranjang(@Field("id_user") String id_user, @Field("id_produk") String id_produk);
+    Call<ResponseKeranjang> getKeranjang(@Field("id_user") String id_user,@Field("id_produk") String id_produk);
 
     @FormUrlEncoded
     @POST("getKeranjangById.php")
@@ -182,6 +185,9 @@ public interface BaseApiService {
     @FormUrlEncoded
     @POST("getProdukAll.php")
     Call<ResponseProduk> getProduks(@Field("key") String key, @Field("kat") String kat);
+    @FormUrlEncoded
+    @POST("getProdukAllRetail.php")
+    Call<ResponseProduk> getProduksRetail(@Field("key") String key, @Field("kat") String kat);
     @FormUrlEncoded
     @POST("cekStok.php")
     Call<ResponseProduk> cekStokProduk(@Field("id_produk") String id_produk);
