@@ -3,16 +3,21 @@ package com.yyaayyaatt.merchantstore;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
+import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 
 import com.yyaayyaatt.merchantstore.adapter.ProdukRecylerAdapter;
@@ -42,7 +47,10 @@ public class ListRetailsActivity extends AppCompatActivity {
     private RecyclerView mRecycler;
     AppCompatButton btn_lanjut;
 
+    private int currentPage = 1;
+    private boolean isLastPage = false;
     private RecyclerView.LayoutManager mLayoutManager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,13 +75,14 @@ public class ListRetailsActivity extends AppCompatActivity {
         progressDialog.show();
         getProduks("", "Retail");
 
-        btn_lanjut.setOnClickListener(v->{
-        startActivity(new Intent(mContext,TransaksiFromKeranjangActivity.class));
+        btn_lanjut.setOnClickListener(v -> {
+            startActivity(new Intent(mContext, TransaksiFromKeranjangActivity.class));
         });
     }
+
     private void getProduks(String key, String kat) {
         produks.clear();
-        Call<ResponseProduk> getdata = mApiService.getProduks(key, kat);
+        Call<ResponseProduk> getdata = mApiService.getProduksRetail(key, kat);
         getdata.enqueue(new Callback<ResponseProduk>() {
             @Override
             public void onResponse(Call<ResponseProduk> call, Response<ResponseProduk> response) {
@@ -100,6 +109,45 @@ public class ListRetailsActivity extends AppCompatActivity {
     @Override
     protected void onPostCreate(@Nullable Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
-        getProduks("","Retail");
+        getProduks("", "Retail");
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_list_retail, menu);
+        // Inisialisasi SearchView
+        MenuItem searchItem = menu.findItem(R.id.action_search);
+        SearchView searchView = (SearchView) searchItem.getActionView();
+
+        // Atur hint dan listener
+        searchView.setQueryHint("Cari produk...");
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                // Pencarian saat tombol submit ditekan (Enter)
+                getProduks(query,"Retail");
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                // Pencarian real-time saat teks berubah
+                getProduks(newText,"Retail");
+                return false;
+            }
+        });
+
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.menu_list_retail) {
+            // Aksi untuk search
+            startActivity(new Intent(mContext, ListDataRetailsActivity.class));
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
