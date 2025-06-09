@@ -94,7 +94,7 @@ public class ListDataRetailsActivity extends AppCompatActivity {
                             mAdapter = new TransaksiRetailRecylerAdapter(mContext, transaksis);
                             mRecycler.setAdapter(mAdapter);
                             for(Transaksi t : transaksis){
-                                total =+ Double.parseDouble(t.getTotal());
+                                total += Double.parseDouble(t.getHarga())*Double.parseDouble(t.getJumlah());
                             }
                             setTotal(total);
                         }
