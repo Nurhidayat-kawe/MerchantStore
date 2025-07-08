@@ -122,12 +122,26 @@ public class TransaksiFromKeranjangActivity extends AppCompatActivity {
                             mAdapter = new KeranjangTransaksiRecylerAdapter(mContext, keranjangs);
                             rv_keranjang.setAdapter(mAdapter);
                             for (Keranjang k : keranjangs){
-                                if(k.getJml_beli()!=0 && k.getJml()>= k.getJml_beli()) {
+                                if (k.getJml_beli3() != 0 && k.getJml() >= k.getJml_beli3()) {
+                                    // Diskon level 3 (jml_beli3 = 100)
+                                    total = Double.parseDouble(String.valueOf(k.getJml())) * Double.parseDouble(k.getHarga_disc3());
+                                    setHarga(k.getHarga_disc3());
+                                    double diskon = Double.parseDouble(k.getHarga_jual()) - Double.parseDouble(k.getHarga_disc3());
+                                    setDiskon("" + diskon);
+                                } else if (k.getJml_beli2() != 0 && k.getJml() >= k.getJml_beli2()) {
+                                    // Diskon level 2 (jml_beli2 = 50)
+                                    total = Double.parseDouble(String.valueOf(k.getJml())) * Double.parseDouble(k.getHarga_disc2());
+                                    setHarga(k.getHarga_disc2());
+                                    double diskon = Double.parseDouble(k.getHarga_jual()) - Double.parseDouble(k.getHarga_disc2());
+                                    setDiskon("" + diskon);
+                                } else if (k.getJml_beli() != 0 && k.getJml() >= k.getJml_beli()) {
+                                    // Diskon level 1 (jml_beli = 10)
                                     total = Double.parseDouble(String.valueOf(k.getJml())) * Double.parseDouble(k.getHarga_disc());
                                     setHarga(k.getHarga_disc());
-                                    double diskon = Double.parseDouble(k.getHarga_jual())-Double.parseDouble(k.getHarga_disc());
-                                    setDiskon(""+diskon);
-                                }else{
+                                    double diskon = Double.parseDouble(k.getHarga_jual()) - Double.parseDouble(k.getHarga_disc());
+                                    setDiskon("" + diskon);
+                                } else {
+                                    // Tidak ada diskon
                                     total = Double.parseDouble(String.valueOf(k.getJml())) * Double.parseDouble(k.getHarga_jual());
                                     setHarga(k.getHarga_jual());
                                     setDiskon("0");

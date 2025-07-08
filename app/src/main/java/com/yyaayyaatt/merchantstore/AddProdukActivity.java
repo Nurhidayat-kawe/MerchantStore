@@ -50,12 +50,13 @@ public class AddProdukActivity extends AppCompatActivity {
     ImageView iv_foto1, iv_foto2;
     ImageButton ib_foto1, ib_foto2;
     EditText ed_nama, ed_stok, ed_harga_satuan, ed_harga_beli,
-            ed_harga_grosir, ed_min_beli, ed_desc, ed_jml_point;
+            ed_harga_grosir, ed_min_beli,ed_harga_grosir2, ed_min_beli2,
+            ed_harga_grosir3, ed_min_beli3, ed_desc, ed_jml_point;
     Spinner sp_kat, sp_satuan;
     AppCompatButton btn_simpan;
 
-    String id_produk, nama, harga_satuan, harga_grosir, harga_beli, desc, kat, sat, user;
-    int min_beli, stok, jml_point;
+    String id_produk, nama, harga_satuan, harga_grosir,harga_grosir2,harga_grosir3, harga_beli, desc, kat, sat, user;
+    int min_beli,min_beli2,min_beli3, stok, jml_point;
     Calendar cal = Calendar.getInstance();
     SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddhhmmss");
 
@@ -75,6 +76,10 @@ public class AddProdukActivity extends AppCompatActivity {
         ed_harga_satuan = findViewById(R.id.ed_add_harga);
         ed_harga_grosir = findViewById(R.id.ed_add_harga_grosir);
         ed_min_beli = findViewById(R.id.ed_add_min_beli);
+        ed_harga_grosir2 = findViewById(R.id.ed_add_harga_grosir2);
+        ed_min_beli2 = findViewById(R.id.ed_add_min_beli2);
+        ed_harga_grosir3 = findViewById(R.id.ed_add_harga_grosir3);
+        ed_min_beli3 = findViewById(R.id.ed_add_min_beli3);
         ed_desc = findViewById(R.id.ed_add_deskripsi);
         ed_jml_point = findViewById(R.id.ed_jml_point);
         sp_kat = findViewById(R.id.sp_add_kat);
@@ -95,11 +100,15 @@ public class AddProdukActivity extends AppCompatActivity {
                 nama = ed_nama.getText().toString();
                 stok = Integer.parseInt(ed_stok.getText().toString());
                 harga_grosir = ed_harga_grosir.getText().toString();
+                harga_grosir2 = ed_harga_grosir2.getText().toString();
+                harga_grosir3 = ed_harga_grosir3.getText().toString();
                 harga_beli = ed_harga_beli.getText().toString();
                 harga_satuan = ed_harga_satuan.getText().toString();
                 desc = ed_desc.getText().toString();
                 jml_point = Integer.parseInt(ed_jml_point.getText().toString());
                 min_beli = Integer.parseInt(ed_min_beli.getText().toString());
+                min_beli2 = Integer.parseInt(ed_min_beli2.getText().toString());
+                min_beli3 = Integer.parseInt(ed_min_beli3.getText().toString());
                 kat = sp_kat.getSelectedItem().toString().substring(0, 2);
                 sat = sp_satuan.getSelectedItem().toString().substring(0, 2);
                 user = sharedPrefManager.getSpIdPengguna();
@@ -107,14 +116,14 @@ public class AddProdukActivity extends AppCompatActivity {
                 progressDialog.setMessage("Tunggu...");
                 progressDialog.setCancelable(false);
                 progressDialog.show();
-                simpan(id_produk, nama, stok, harga_grosir, harga_beli, harga_satuan, desc, min_beli, kat, sat, jml_point);
+                simpan(id_produk, nama, stok, harga_grosir,harga_grosir2,harga_grosir3, harga_beli, harga_satuan, desc, min_beli,min_beli2,min_beli3, kat, sat, jml_point);
             }
         });
 
     }
 
-    private void simpan(String id_produk, String nama, int stok, String harga_grosir, String harga_beli, String harga_satuan, String desc, int min_beli, String kat, String sat, int jml_point) {
-        Call<ResponseProduk> getdata = mApiService.addProduk(id_produk, nama, kat, harga_beli, sat, desc, "0", "0", user, "0", stok, min_beli, harga_grosir, harga_satuan, jml_point);
+    private void simpan(String id_produk, String nama, int stok, String harga_grosir, String harga_grosir2, String harga_grosir3, String harga_beli, String harga_satuan, String desc, int min_beli,int min_beli2,int min_beli3, String kat, String sat, int jml_point) {
+        Call<ResponseProduk> getdata = mApiService.addProduk(id_produk, nama, kat, harga_beli, sat, desc, "0", "0", user, "0", stok, min_beli,min_beli2,min_beli3, harga_grosir,harga_grosir2,harga_grosir3, harga_satuan, jml_point);
         getdata.enqueue(new Callback<ResponseProduk>() {
             @Override
             public void onResponse(Call<ResponseProduk> call, Response<ResponseProduk> response) {

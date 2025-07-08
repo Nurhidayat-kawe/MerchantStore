@@ -17,6 +17,10 @@ public class Produk {
     private String harga_jual;
     @SerializedName("harga_disc")
     private String harga_disc;
+    @SerializedName("harga_disc2")
+    private String harga_disc2;
+    @SerializedName("harga_disc3")
+    private String harga_disc3;
     @SerializedName("id_satuan")
     private int id_satuan;
     @SerializedName("nama_satuan")
@@ -43,6 +47,10 @@ public class Produk {
     private int stok;
     @SerializedName("jml_beli")
     private int jml_beli;
+    @SerializedName("jml_beli2")
+    private int jml_beli2;
+    @SerializedName("jml_beli3")
+    private int jml_beli3;
     @SerializedName("jml_point")
     private int jml_point;
 
@@ -212,5 +220,37 @@ public class Produk {
 
     public void setJml_point(int jml_point) {
         this.jml_point = jml_point;
+    }
+
+    public String getHarga_disc2() {
+        return harga_disc2;
+    }
+
+    public void setHarga_disc2(String harga_disc2) {
+        this.harga_disc2 = harga_disc2;
+    }
+
+    public String getHarga_disc3() {
+        return harga_disc3;
+    }
+
+    public void setHarga_disc3(String harga_disc3) {
+        this.harga_disc3 = harga_disc3;
+    }
+
+    public int getJml_beli2() {
+        return jml_beli2;
+    }
+
+    public void setJml_beli2(int jml_beli2) {
+        this.jml_beli2 = jml_beli2;
+    }
+
+    public int getJml_beli3() {
+        return jml_beli3;
+    }
+
+    public void setJml_beli3(int jml_beli3) {
+        this.jml_beli3 = jml_beli3;
     }
 }

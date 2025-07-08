@@ -39,12 +39,14 @@
 
                     <TextView
                         android:id="@+id/textView61"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
                         android:layout_marginTop="8dp"
+                        android:layout_marginEnd="8dp"
                         android:text="Min. Pembelian"
                         android:textColor="@color/purple_700"
+                        app:layout_constraintEnd_toStartOf="@+id/textView62"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/ed_update_produk_jual" />
 
@@ -53,36 +55,35 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
-                        android:layout_marginEnd="8dp"
                         android:background="@drawable/txt_round"
                         android:ems="10"
                         android:inputType="number"
                         android:text="0"
                         android:textColor="@color/purple_700"
-                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/txt_set_diskon_harga_diskon2"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/textView61" />
 
                     <TextView
                         android:id="@+id/textView62"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
                         android:layout_marginTop="8dp"
+                        android:layout_marginEnd="8dp"
                         android:text="Harga Diskon"
                         android:textColor="@color/purple_700"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/txt_set_diskon_min_beli2" />
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/textView61"
+                        app:layout_constraintTop_toBottomOf="@+id/ed_update_produk_jual" />
 
                     <TextView
                         android:id="@+id/textView78"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
                         android:layout_marginTop="8dp"
                         android:text="Harga Diskon"
                         android:textColor="@color/purple_700"
-                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/textView61"
                         app:layout_constraintTop_toBottomOf="@+id/txt_set_diskon_min_beli2" />
 
                     <TextView
@@ -108,7 +109,7 @@
                         android:text="0"
                         android:textColor="@color/purple_700"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/txt_set_diskon_min_beli2"
                         app:layout_constraintTop_toBottomOf="@+id/textView62" />
 
                     <EditText

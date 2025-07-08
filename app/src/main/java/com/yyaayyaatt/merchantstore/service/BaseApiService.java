@@ -223,7 +223,11 @@ public interface BaseApiService {
                                    @Field("cabang") String cabang,
                                    @Field("stok") int stok,
                                    @Field("jml_beli") int jml_beli,
+                                   @Field("jml_beli2") int jml_beli2,
+                                   @Field("jml_beli3") int jml_beli3,
                                    @Field("harga_disc") String harga_disc,
+                                   @Field("harga_disc2") String harga_disc2,
+                                   @Field("harga_disc3") String harga_disc3,
                                    @Field("harga_jual") String harga_jual,
                                    @Field("jml_point") int jml_point);
 
