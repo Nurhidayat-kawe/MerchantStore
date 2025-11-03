@@ -74,14 +74,31 @@ public class DetailPelangganActivity extends AppCompatActivity {
         btn_blokir = findViewById(R.id.btn_detail_pelanggan_blokir);
         btn_aktif = findViewById(R.id.btn_detail_pelanggan_aktif);
 
-        Glide.with(ctx)
-                .load(UtilsApi.BASE_URL_API + "images/" + i.getStringExtra("foto"))
-                .placeholder(R.drawable.noimage)
-                .error(R.drawable.noimage)
-                .into(img);
 
-        tv_trans.setText(i.getStringExtra("jml_trans"));
-        tv_belanja.setText(nf.format(Double.parseDouble(i.getStringExtra("jumlah"))));
+        String foto = i.getStringExtra("foto");
+        if (foto == null || foto.trim().isEmpty()) {
+            img.setImageResource(R.drawable.noimage);
+        } else {
+            Glide.with(ctx)
+                    .load(UtilsApi.BASE_URL_API + "images/" + foto)
+                    .timeout(4000)
+                    .placeholder(R.drawable.noimage)
+                    .error(R.drawable.noimage)
+                    .fallback(R.drawable.noimage)
+                    .into(img);
+        }
+
+        String totalStr = i.getStringExtra("jumlah");
+        double total = 0.0;
+        if (totalStr != null && !totalStr.trim().isEmpty()) {
+             total = Double.parseDouble(totalStr.trim());
+            // lanjutkan logika kamu
+        } else {
+             total = 0.0; // default atau tampilkan error
+            Log.w("DetailPelangganActivity", "total null atau kosong, diset ke 0");
+        }
+            tv_trans.setText(i.getStringExtra("jml_trans"));
+        tv_belanja.setText(nf.format(total));
         tv_nama.setText(i.getStringExtra("nama"));
         tv_toko.setText(" (" + i.getStringExtra("toko") + ")");
         tv_alamat.setText(i.getStringExtra("alamat"));
