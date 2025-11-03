@@ -92,11 +92,6 @@ public class HomeFragment extends Fragment {
         rv_produk = view.findViewById(R.id.recyclerView2);
         rv_pelanggan_top = view.findViewById(R.id.rv_pelanggan_top);
 
-        mContext = view.getContext();
-        progressDialog = new ProgressDialog(mContext);
-        mApiService = UtilsApi.getAPIService();
-        sharedPrefManager = new SharedPrefManager(mContext);
-
         rv_produk.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(mContext);
         rv_produk.setLayoutManager(new GridLayoutManager(mContext, 2, RecyclerView.HORIZONTAL, false));

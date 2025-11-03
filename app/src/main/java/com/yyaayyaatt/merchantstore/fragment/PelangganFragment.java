@@ -72,7 +72,7 @@ public class PelangganFragment extends Fragment {
             mRecycler.setLayoutManager(new GridLayoutManager(mContext, 2, RecyclerView.VERTICAL, false));
         }
         progressDialog.setMessage("Tunggu...");
-        progressDialog.setCancelable(false);
+        progressDialog.setCancelable(true);
         progressDialog.show();
         getPelanggan();
 

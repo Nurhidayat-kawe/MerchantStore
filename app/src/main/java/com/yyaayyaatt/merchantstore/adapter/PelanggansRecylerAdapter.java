@@ -44,11 +44,18 @@ public class PelanggansRecylerAdapter extends RecyclerView.Adapter<PelanggansRec
         holder.telp.setText(mList.get(position).getTelp());
         holder.alamat.setText(mList.get(position).getAlamat());
 
-        Glide.with(ctx)
-                .load(UtilsApi.BASE_URL_API + "images/" + mList.get(position).getFoto())
-                .placeholder(R.drawable.noimage)
-                .error(R.drawable.noimage)
-                .into(holder.img);
+        String foto = mList.get(position).getFoto();
+        if (foto == null || foto.trim().isEmpty()) {
+            holder.img.setImageResource(R.drawable.noimage);
+        } else {
+            Glide.with(ctx)
+                    .load(UtilsApi.BASE_URL_API + "images/" + foto)
+                    .timeout(4000)
+                    .placeholder(R.drawable.noimage)
+                    .error(R.drawable.noimage)
+                    .fallback(R.drawable.noimage)
+                    .into(holder.img);
+        }
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
