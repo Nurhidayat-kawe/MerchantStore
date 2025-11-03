@@ -11,7 +11,7 @@ android {
         applicationId "com.yyaayyaatt.merchantstore"
         minSdkVersion 23
         targetSdkVersion 34
-        versionCode 26
+        versionCode 27
         versionName "2.9.1"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
