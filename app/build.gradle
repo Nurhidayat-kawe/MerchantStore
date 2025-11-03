@@ -5,14 +5,14 @@ plugins {
 
 android {
     namespace "com.yyaayyaatt.merchantstore"
-    compileSdk 34
+    compileSdk 35
 
     defaultConfig {
         applicationId "com.yyaayyaatt.merchantstore"
         minSdkVersion 23
-        targetSdkVersion 34
-        versionCode 27
-        versionName "2.9.1"
+        targetSdkVersion 35
+        versionCode 28
+        versionName "2.9.2"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
