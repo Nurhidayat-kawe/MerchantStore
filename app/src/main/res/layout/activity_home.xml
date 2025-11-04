@@ -4,15 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:paddingTop="24dp"
     tools:context=".HomeActivity">
 
-    <androidx.fragment.app.FragmentTabHost
+    <!-- Ganti FragmentTabHost jadi FrameLayout biasa -->
+    <FrameLayout
         android:id="@+id/nav_host_fragment"
-        android:name="androidx.navigation.fragment.NavHostFragment"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:defaultNavHost="true"
-        tools:ignore="MissingClass" />
+        android:layout_height="match_parent" />
 
     <com.google.android.material.bottomappbar.BottomAppBar
         android:id="@+id/bottomAppBar"

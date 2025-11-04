@@ -243,10 +243,10 @@ public interface BaseApiService {
                                       @Field("harga_jual") String harga_jual,
                                       @Field("jml_beli") String jml_beli,
                                       @Field("harga_diskon") String harga_diskon,
-                                      @Field("jml_beli2") String jml_beli3,
-                                      @Field("harga_diskon2") String harga_diskon3,
-                                      @Field("jml_beli3") String jml_beli4,
-                                      @Field("harga_diskon3") String harga_diskon4,
+                                      @Field("jml_beli2") String jml_beli2,
+                                      @Field("harga_diskon2") String harga_diskon2,
+                                      @Field("jml_beli3") String jml_beli3,
+                                      @Field("harga_diskon3") String harga_diskon3,
                                       @Field("jml_point") int jml_point);
 
     @FormUrlEncoded

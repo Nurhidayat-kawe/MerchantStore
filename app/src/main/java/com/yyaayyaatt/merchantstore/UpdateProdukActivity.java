@@ -46,10 +46,10 @@ public class UpdateProdukActivity extends AppCompatActivity {
     Intent intent;
 
     EditText ed_nama, ed_desc, ed_beli, ed_jual;
-    EditText txt_jml_beli,txt_jml_beli3, txt_jml_beli4, txt_harga_diskon, txt_harga_diskon3, txt_harga_diskon4, txt_jml_point;
+    EditText txt_jml_beli,txt_jml_beli2, txt_jml_beli3, txt_harga_diskon, txt_harga_diskon2, txt_harga_diskon3, txt_jml_point;
     Spinner sp_kat, sp_satuan;
     AppCompatButton btn_simpan;
-    String id_produk, nama, harga_jual, harga_beli, desc, kat, sat, user, harga_diskon, harga_diskon3, harga_diskon4, jml_beli, jml_beli3, jml_beli4;
+    String id_produk, nama, harga_jual, harga_beli, desc, kat, sat, user, harga_diskon, harga_diskon2, harga_diskon3, jml_beli, jml_beli2, jml_beli3;
     int jml_point;
 
     @Override
@@ -73,13 +73,13 @@ public class UpdateProdukActivity extends AppCompatActivity {
         ed_jual = findViewById(R.id.ed_update_produk_jual);
         ed_desc = findViewById(R.id.ed_update_produk_desc);
         sp_kat = findViewById(R.id.sp_update_produk_kat);
-        txt_jml_beli = findViewById(R.id.txt_set_diskon_min_beli2);
-        txt_jml_beli3 = findViewById(R.id.txt_set_diskon_min_beli3);
-        txt_jml_beli4 = findViewById(R.id.txt_set_diskon_min_beli4);
+        txt_jml_beli = findViewById(R.id.txt_update_min_beli);
+        txt_jml_beli2 = findViewById(R.id.txt_update_min_beli2);
+        txt_jml_beli3 = findViewById(R.id.txt_update_min_beli3);
         txt_jml_point = findViewById(R.id.txt_jml_point);
-        txt_harga_diskon = findViewById(R.id.txt_set_diskon_harga_diskon2);
-        txt_harga_diskon3 = findViewById(R.id.txt_set_diskon_harga_diskon3);
-        txt_harga_diskon4 = findViewById(R.id.txt_set_diskon_harga_diskon4);
+        txt_harga_diskon = findViewById(R.id.txt_update_harga_diskon);
+        txt_harga_diskon2 = findViewById(R.id.txt_update_harga_diskon2);
+        txt_harga_diskon3 = findViewById(R.id.txt_update_harga_diskon3);
         sp_satuan = findViewById(R.id.sp_update_produk_satuan);
         btn_simpan = findViewById(R.id.btn_update_produk_simpan);
 
@@ -89,11 +89,11 @@ public class UpdateProdukActivity extends AppCompatActivity {
         ed_desc.setText(intent.getStringExtra("desc"));
         txt_jml_point.setText(intent.getIntExtra("jml_point",0)+"");
         txt_jml_beli.setText(intent.getIntExtra("jml_beli", 0) + "");
-        txt_jml_beli3.setText(intent.getIntExtra("jml_beli3", 0) + "");
-        txt_jml_beli4.setText(intent.getIntExtra("jml_beli4", 0) + "");
+        txt_jml_beli2.setText(intent.getIntExtra("jml_beli3", 0) + "");
+        txt_jml_beli3.setText(intent.getIntExtra("jml_beli4", 0) + "");
         txt_harga_diskon.setText(intent.getStringExtra("harga_disc"));
-        txt_harga_diskon3.setText(intent.getStringExtra("harga_disc3"));
-        txt_harga_diskon4.setText(intent.getStringExtra("harga_disc4"));
+        txt_harga_diskon2.setText(intent.getStringExtra("harga_disc3"));
+        txt_harga_diskon3.setText(intent.getStringExtra("harga_disc4"));
         getKat();
         getSat();
 
@@ -110,25 +110,25 @@ public class UpdateProdukActivity extends AppCompatActivity {
                 user = sharedPrefManager.getSpIdPengguna();
                 harga_diskon = txt_harga_diskon.getText().toString();
                 jml_beli = txt_jml_beli.getText().toString();
+                harga_diskon2 = txt_harga_diskon2.getText().toString();
+                jml_beli2 = txt_jml_beli2.getText().toString();
                 harga_diskon3 = txt_harga_diskon3.getText().toString();
                 jml_beli3 = txt_jml_beli3.getText().toString();
-                harga_diskon4 = txt_harga_diskon4.getText().toString();
-                jml_beli4 = txt_jml_beli4.getText().toString();
                 jml_point = Integer.parseInt(txt_jml_point.getText().toString());
                 if (nama.isEmpty()) {
                     Toast.makeText(mContext, "Nama tidak boleh kosong!", Toast.LENGTH_SHORT).show();
                 } else if (harga_jual.isEmpty()) {
                     Toast.makeText(mContext, "Harga jual tidak boleh kosong!", Toast.LENGTH_SHORT).show();
                 } else {
-                    simpan(id_produk, nama, harga_jual, harga_beli, desc, kat, sat, user, jml_beli, harga_diskon, jml_beli3, harga_diskon3, jml_beli4, harga_diskon4, jml_point);
+                    simpan(id_produk, nama, harga_jual, harga_beli, desc, kat, sat, user, jml_beli, harga_diskon, jml_beli2, harga_diskon2, jml_beli3, harga_diskon3, jml_point);
                 }
             }
         });
     }
 
 
-    private void simpan(String id_produk, String nama, String harga_jual, String harga_beli, String desc, String kat, String sat, String user, String jml_beli, String harga_diskon, String jml_beli3, String harga_diskon3, String jml_beli4, String harga_diskon4, int jml_point) {
-        Call<ResponseProduk> getdata = mApiService.updateProduk(id_produk, nama, kat, harga_beli, sat, desc, user, harga_jual, jml_beli, harga_diskon, jml_beli3, harga_diskon3, jml_beli4, harga_diskon4, jml_point);
+    private void simpan(String id_produk, String nama, String harga_jual, String harga_beli, String desc, String kat, String sat, String user, String jml_beli, String harga_diskon, String jml_beli2, String harga_diskon2, String jml_beli3, String harga_diskon3, int jml_point) {
+        Call<ResponseProduk> getdata = mApiService.updateProduk(id_produk, nama, kat, harga_beli, sat, desc, user, harga_jual, jml_beli, harga_diskon, jml_beli2, harga_diskon2, jml_beli3, harga_diskon3, jml_point);
         getdata.enqueue(new Callback<ResponseProduk>() {
             @Override
             public void onResponse(Call<ResponseProduk> call, Response<ResponseProduk> response) {
