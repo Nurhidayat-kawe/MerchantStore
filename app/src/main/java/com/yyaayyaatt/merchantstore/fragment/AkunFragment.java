@@ -1,13 +1,18 @@
 package com.yyaayyaatt.merchantstore.fragment;
 
+import android.app.DatePickerDialog;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -17,8 +22,11 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.core.app.NotificationCompat;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
+import com.google.android.material.button.MaterialButton;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
@@ -38,7 +46,9 @@ import com.yyaayyaatt.merchantstore.ReferralActivity;
 import com.yyaayyaatt.merchantstore.Upload.BaseResponse;
 import com.yyaayyaatt.merchantstore.Upload.FileUtils;
 import com.yyaayyaatt.merchantstore.Upload.UploadService;
+import com.yyaayyaatt.merchantstore.model.ResponseStatusServer;
 import com.yyaayyaatt.merchantstore.model.ResponseUsers;
+import com.yyaayyaatt.merchantstore.model.StatusServer;
 import com.yyaayyaatt.merchantstore.model.Users;
 import com.yyaayyaatt.merchantstore.service.BaseApiService;
 import com.yyaayyaatt.merchantstore.service.SharedPrefManager;
@@ -66,9 +76,13 @@ public class AkunFragment extends Fragment {
     ProgressDialog progressDialog;
     CircleImageView img;
     TextView txtNama, tv_alamat, tv_version;
+    TextView tvMasaAktifTgl, tvMasaAktifStatus, tvMasaAktifNama;
+    TextView tvTenggangPoint, tvTenggangInfo;
+    ImageButton ibEditTenggang;
     String img_url = "";
     AppCompatButton btn_penjualan, btn_penjualan2, btn_rekap_transaksi,
-            btn_pendapatan, btn_jam_operasional,btn_akun_penukaran_point, btn_akun_points, btn_data_ref, btn_retail, btn_logout;
+            btn_pendapatan, btn_jam_operasional,btn_akun_penukaran_point, btn_akun_points, btn_data_ref, btn_retail;
+    MaterialButton btn_logout;
     //upload
     private static final int PICK_IMAGE = 1;
     private static final int PERMISSION_REQUEST_STORAGE = 2;
@@ -98,6 +112,12 @@ public class AkunFragment extends Fragment {
         btn_retail = view.findViewById(R.id.btn_akun_referral2);
         btn_jam_operasional = view.findViewById(R.id.btn_akun_jam_operasional);
         btn_logout = view.findViewById(R.id.btn_akun_logout);
+        tvMasaAktifTgl = view.findViewById(R.id.tv_masa_aktif_tgl);
+        tvMasaAktifStatus = view.findViewById(R.id.tv_masa_aktif_status);
+        tvMasaAktifNama = view.findViewById(R.id.tv_masa_aktif_nama);
+        tvTenggangPoint = view.findViewById(R.id.tv_tenggang_point);
+        tvTenggangInfo = view.findViewById(R.id.tv_tenggang_info);
+        ibEditTenggang = view.findViewById(R.id.ib_edit_tenggang);
 
         mContext = view.getContext();
         sharedPrefManager = new SharedPrefManager(mContext);
@@ -105,6 +125,7 @@ public class AkunFragment extends Fragment {
         progressDialog = ProgressDialog.show(mContext, "Load Data User",
                 "Harap tunggu...", true, false);
         getUser(view);
+        getServer(view);
 
         btn_penjualan.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -166,6 +187,13 @@ public class AkunFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 choosePhoto();
+            }
+        });
+
+        ibEditTenggang.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showEditTenggangDialog();
             }
         });
 
@@ -235,6 +263,154 @@ public class AkunFragment extends Fragment {
                 Log.e("debug", "onFailure: ERROR > " + t.toString());
                 progressDialog.dismiss();
                 Toast.makeText(mContext, "Koneksi terputus...", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void getServer(View v) {
+        Call<ResponseStatusServer> call = mApiService.getServer();
+        call.enqueue(new Callback<ResponseStatusServer>() {
+            @Override
+            public void onResponse(Call<ResponseStatusServer> call, Response<ResponseStatusServer> response) {
+                if (response.isSuccessful() && response.body() != null && response.body().getmKode().equals("1")) {
+                    List<StatusServer> list = response.body().getResult();
+                    if (list != null && !list.isEmpty()) {
+                        StatusServer s = list.get(0);
+                        tvMasaAktifNama.setText(s.getNama_server());
+                        if (s.getTenggang_point() != null && !s.getTenggang_point().isEmpty()) {
+                            tvTenggangPoint.setText(s.getTenggang_point());
+                        } else {
+                            tvTenggangPoint.setText("-");
+                        }
+                        if (s.getTgl_ed() != null && !s.getTgl_ed().isEmpty()) {
+                            tvMasaAktifTgl.setText(s.getTgl_ed());
+                            String remaining = updateExpiryStatus(s.getTgl_ed());
+                            if (remaining != null) {
+                                sendExpiryNotification(remaining);
+                            }
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseStatusServer> call, Throwable t) {
+                Log.e("debug", "getServer error", t);
+            }
+        });
+    }
+
+    private String updateExpiryStatus(String tglEd) {
+        try {
+            java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd", java.util.Locale.getDefault());
+            java.util.Date expiredDate = sdf.parse(tglEd);
+            java.util.Date now = new java.util.Date();
+
+            if (expiredDate != null) {
+                long diff = expiredDate.getTime() - now.getTime();
+                long daysRemaining = diff / (1000 * 60 * 60 * 24);
+
+                if (daysRemaining < 0) {
+                    tvMasaAktifStatus.setText("Masa Aktif Habis");
+                    tvMasaAktifStatus.setBackgroundResource(R.drawable.btn_round_red);
+                } else if (daysRemaining <= 30) {
+                    tvMasaAktifStatus.setText("Hampir Habis (" + daysRemaining + " hari lagi)");
+                    tvMasaAktifStatus.setBackgroundResource(R.drawable.btn_round_orange);
+                    if (daysRemaining <= 14) {
+                        return String.valueOf(daysRemaining);
+                    }
+                } else {
+                    tvMasaAktifStatus.setText("Aktif (" + daysRemaining + " hari lagi)");
+                    tvMasaAktifStatus.setBackgroundResource(R.drawable.btn_round_green);
+                }
+            }
+        } catch (Exception e) {
+            Log.e("debug", "Error parsing date", e);
+        }
+        return null;
+    }
+
+    private void sendExpiryNotification(String daysLeft) {
+        String channelId = "fcm_default_channel";
+        NotificationManager nm = (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationChannel channel = new NotificationChannel(channelId,
+                    "Notifikasi Aplikasi", NotificationManager.IMPORTANCE_DEFAULT);
+            nm.createNotificationChannel(channel);
+        }
+
+        Intent intent = new Intent(mContext, getActivity().getClass());
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        android.app.PendingIntent pendingIntent = android.app.PendingIntent.getActivity(mContext, 0, intent,
+                android.app.PendingIntent.FLAG_IMMUTABLE);
+
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(mContext, channelId)
+                .setSmallIcon(R.drawable.logo)
+                .setContentTitle("Masa Aktif Aplikasi")
+                .setContentText("Sisa " + daysLeft + " hari lagi. Segera perpanjang masa aktif!")
+                .setAutoCancel(true)
+                .setContentIntent(pendingIntent);
+
+        nm.notify(1001, builder.build());
+    }
+
+    private void showEditTenggangDialog() {
+        java.util.Calendar cal = java.util.Calendar.getInstance();
+        String currentDate = tvTenggangPoint.getText().toString();
+        if (!currentDate.equals("-")) {
+            try {
+                java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd", java.util.Locale.getDefault());
+                java.util.Date d = sdf.parse(currentDate);
+                if (d != null) cal.setTime(d);
+            } catch (Exception ignored) {}
+        }
+
+        final DatePickerDialog datePicker = new DatePickerDialog(mContext,
+                new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(android.widget.DatePicker view, int year, int month, int dayOfMonth) {
+                        String tgl = String.format("%04d-%02d-%02d", year, month + 1, dayOfMonth);
+                        updateTenggangPoint(tgl);
+                    }
+                },
+                cal.get(java.util.Calendar.YEAR),
+                cal.get(java.util.Calendar.MONTH),
+                cal.get(java.util.Calendar.DAY_OF_MONTH));
+        datePicker.setTitle("Batas Akhir Penukaran Point");
+        datePicker.setButton(DatePickerDialog.BUTTON_NEUTRAL, "Hapus Tanggal", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                updateTenggangPoint("");
+            }
+        });
+        datePicker.show();
+    }
+
+    private void updateTenggangPoint(String tgl) {
+        final ProgressDialog pd = ProgressDialog.show(mContext, "Menyimpan", "Harap tunggu...", true, false);
+        Call<ResponseStatusServer> call = mApiService.updateServer(tgl);
+        call.enqueue(new Callback<ResponseStatusServer>() {
+            @Override
+            public void onResponse(Call<ResponseStatusServer> call, Response<ResponseStatusServer> response) {
+                pd.dismiss();
+                if (response.isSuccessful() && response.body() != null && response.body().getmKode().equals("1")) {
+                    if (tgl.isEmpty()) {
+                        tvTenggangPoint.setText("-");
+                        Toast.makeText(mContext, "Batas penukaran point dihapus", Toast.LENGTH_SHORT).show();
+                    } else {
+                        tvTenggangPoint.setText(tgl);
+                        Toast.makeText(mContext, "Batas penukaran point berhasil diupdate", Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    Toast.makeText(mContext, "Gagal menyimpan", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseStatusServer> call, Throwable t) {
+                pd.dismiss();
+                Toast.makeText(mContext, "Koneksi terputus", Toast.LENGTH_SHORT).show();
             }
         });
     }

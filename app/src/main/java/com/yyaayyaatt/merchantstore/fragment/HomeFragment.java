@@ -11,7 +11,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.SearchView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -49,8 +48,6 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class HomeFragment extends Fragment {
-    private final SearchView searchView = null;
-    private SearchView.OnQueryTextListener queryTextListener;
     NumberFormat nf = NumberFormat.getCurrencyInstance();
 
     TextView textCartItemCount, textPelangganCount;
@@ -93,11 +90,9 @@ public class HomeFragment extends Fragment {
         rv_pelanggan_top = view.findViewById(R.id.rv_pelanggan_top);
 
         rv_produk.setHasFixedSize(true);
-        mLayoutManager = new LinearLayoutManager(mContext);
-        rv_produk.setLayoutManager(new GridLayoutManager(mContext, 2, RecyclerView.HORIZONTAL, false));
+        rv_produk.setLayoutManager(new LinearLayoutManager(mContext));
         rv_pelanggan_top.setHasFixedSize(true);
-        mLayoutManager = new LinearLayoutManager(mContext);
-        rv_pelanggan_top.setLayoutManager(new GridLayoutManager(mContext, 1, RecyclerView.VERTICAL, false));
+        rv_pelanggan_top.setLayoutManager(new LinearLayoutManager(mContext));
         setHasOptionsMenu(true);
         getUsers();
         getProduk();

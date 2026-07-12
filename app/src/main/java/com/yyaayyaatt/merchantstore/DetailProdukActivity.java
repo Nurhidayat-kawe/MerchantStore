@@ -3,7 +3,6 @@ package com.yyaayyaatt.merchantstore;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -14,17 +13,16 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
+import androidx.cardview.widget.CardView;
 
 import com.bumptech.glide.Glide;
 import com.yyaayyaatt.merchantstore.Upload.BaseResponse;
-import com.yyaayyaatt.merchantstore.Upload.FileUtils;
 import com.yyaayyaatt.merchantstore.Upload.UploadService;
 import com.yyaayyaatt.merchantstore.model.Produk;
 import com.yyaayyaatt.merchantstore.model.ResponseProduk;
@@ -33,6 +31,7 @@ import com.yyaayyaatt.merchantstore.service.UtilsApi;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.InputStream;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -52,13 +51,16 @@ public class DetailProdukActivity extends AppCompatActivity {
     TextView tv_detail_produk, tv_beli, tv_jual, tv_desc;
     ImageView img;
     ImageButton ib_foto_produk;
+    CardView cardGrosir1, cardGrosir2, cardGrosir3;
+    TextView tvMinBeli1, tvMinBeli2, tvMinBeli3;
+    TextView tvHargaGrosir1, tvHargaGrosir2, tvHargaGrosir3;
+    TextView tvHeaderGrosir, tvEmptyGrosir;
+    LinearLayout linearGrosir;
     List<Produk> transaksis2 = new ArrayList<>();
     NumberFormat nf = NumberFormat.getCurrencyInstance();
 
     //upload
     private static final int PICK_IMAGE = 1;
-    private static final int PERMISSION_REQUEST_STORAGE = 2;
-    private Uri uri;
     private static final String TYPE_1 = "multipart";
     private String imageName, id_produk;
     private UploadService uploadService;
@@ -84,10 +86,27 @@ public class DetailProdukActivity extends AppCompatActivity {
         tv_jual = findViewById(R.id.tv_detail_produk_harga_jual);
         tv_desc = findViewById(R.id.tv_detail_produk_desc);
 
+        cardGrosir1 = findViewById(R.id.card_grosir_1);
+        cardGrosir2 = findViewById(R.id.card_grosir_2);
+        cardGrosir3 = findViewById(R.id.card_grosir_3);
+        tvMinBeli1 = findViewById(R.id.tv_min_beli_1);
+        tvMinBeli2 = findViewById(R.id.tv_min_beli_2);
+        tvMinBeli3 = findViewById(R.id.tv_min_beli_3);
+        tvHargaGrosir1 = findViewById(R.id.tv_harga_grosir_1);
+        tvHargaGrosir2 = findViewById(R.id.tv_harga_grosir_2);
+        tvHargaGrosir3 = findViewById(R.id.tv_harga_grosir_3);
+        tvHeaderGrosir = findViewById(R.id.tv_header_grosir);
+        tvEmptyGrosir = findViewById(R.id.tv_empty_grosir);
+        linearGrosir = findViewById(R.id.linear_grosir);
+
+        setupGrosirClick(cardGrosir1);
+        setupGrosirClick(cardGrosir2);
+        setupGrosirClick(cardGrosir3);
+
         ib_foto_produk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                choosePhoto();
+                openGallery();
             }
         });
 
@@ -120,6 +139,7 @@ public class DetailProdukActivity extends AppCompatActivity {
                             tv_beli.setText("Harga Beli :\n" + nf.format(Double.parseDouble(transaksis2.get(0).getHarga_beli())));
                             tv_jual.setText("Harga Jual :\n" + nf.format(Double.parseDouble(transaksis2.get(0).getHarga_jual())));
                             tv_desc.setText(transaksis2.get(0).getDeskripsi());
+                            populateGrosir(transaksis2.get(0));
                         }
                     }
                 }
@@ -157,38 +177,89 @@ public class DetailProdukActivity extends AppCompatActivity {
     }
 
 
-    private void choosePhoto() {
-        if (ContextCompat.checkSelfPermission(mContext, android.Manifest.permission.READ_EXTERNAL_STORAGE)
-                != PackageManager.PERMISSION_GRANTED
-                && ContextCompat.checkSelfPermission(mContext, android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                != PackageManager.PERMISSION_GRANTED) {
+    private void populateGrosir(Produk p) {
+        boolean hasAny = false;
 
-            ActivityCompat.requestPermissions(DetailProdukActivity.this,
-                    new String[]{android.Manifest.permission.READ_EXTERNAL_STORAGE, android.Manifest.permission.WRITE_EXTERNAL_STORAGE},
-                    PERMISSION_REQUEST_STORAGE);
-
+        if (p.getJml_beli() > 0 && p.getHarga_disc() != null && !p.getHarga_disc().equals("0") && !p.getHarga_disc().isEmpty()) {
+            tvMinBeli1.setText("Min. Pembelian: " + p.getJml_beli() + " " + p.getNama_satuan());
+            tvHargaGrosir1.setText(nf.format(Double.parseDouble(p.getHarga_disc())));
+            cardGrosir1.setVisibility(View.VISIBLE);
+            hasAny = true;
+            animateCard(cardGrosir1, 0);
         } else {
-            openGallery();
+            cardGrosir1.setVisibility(View.GONE);
         }
+
+        if (p.getJml_beli2() > 0 && p.getHarga_disc2() != null && !p.getHarga_disc2().equals("0") && !p.getHarga_disc2().isEmpty()) {
+            tvMinBeli2.setText("Min. Pembelian: " + p.getJml_beli2() + " " + p.getNama_satuan());
+            tvHargaGrosir2.setText(nf.format(Double.parseDouble(p.getHarga_disc2())));
+            cardGrosir2.setVisibility(View.VISIBLE);
+            hasAny = true;
+            animateCard(cardGrosir2, 150);
+        } else {
+            cardGrosir2.setVisibility(View.GONE);
+        }
+
+        if (p.getJml_beli3() > 0 && p.getHarga_disc3() != null && !p.getHarga_disc3().equals("0") && !p.getHarga_disc3().isEmpty()) {
+            tvMinBeli3.setText("Min. Pembelian: " + p.getJml_beli3() + " " + p.getNama_satuan());
+            tvHargaGrosir3.setText(nf.format(Double.parseDouble(p.getHarga_disc3())));
+            cardGrosir3.setVisibility(View.VISIBLE);
+            hasAny = true;
+            animateCard(cardGrosir3, 300);
+        } else {
+            cardGrosir3.setVisibility(View.GONE);
+        }
+
+        if (hasAny) {
+            tvHeaderGrosir.setVisibility(View.VISIBLE);
+            linearGrosir.setVisibility(View.VISIBLE);
+            tvEmptyGrosir.setVisibility(View.GONE);
+        } else {
+            tvHeaderGrosir.setVisibility(View.GONE);
+            linearGrosir.setVisibility(View.GONE);
+            tvEmptyGrosir.setVisibility(View.VISIBLE);
+        }
+    }
+
+    private void animateCard(View view, long delay) {
+        view.setAlpha(0f);
+        view.setTranslationY(30f);
+        view.animate()
+                .alpha(1f)
+                .translationY(0f)
+                .setDuration(300)
+                .setStartDelay(delay)
+                .start();
+    }
+
+    private void setupGrosirClick(View view) {
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                v.animate()
+                        .scaleX(0.92f).scaleY(0.92f)
+                        .setDuration(80)
+                        .withEndAction(new Runnable() {
+                            @Override
+                            public void run() {
+                                v.animate()
+                                        .scaleX(1f).scaleY(1f)
+                                        .setDuration(80)
+                                        .start();
+                            }
+                        })
+                        .start();
+            }
+        });
     }
 
     public void openGallery() {
-        Intent intent = new Intent();
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
         intent.setType("image/*");
-        intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(Intent.createChooser(intent, "Select Image"), PICK_IMAGE);
+        startActivityForResult(Intent.createChooser(intent, "Pilih Gambar"), PICK_IMAGE);
     }
 
     private void uploadMultipart(File file) {
-        int compressionRatio = 90; //1 == originalImage, 2 = 50% compression, 4=25% compress
-        try {
-            Bitmap bitmap = BitmapFactory.decodeFile (file.getPath ());
-            bitmap.compress (Bitmap.CompressFormat.JPEG, compressionRatio, new FileOutputStream (file));
-        }
-        catch (Throwable t) {
-            Log.e("ERROR", "Error compressing file." + t.toString ());
-            t.printStackTrace ();
-        }
         RequestBody photoBody = RequestBody.create(MediaType.parse("image/*"), file);
         MultipartBody.Part photoPart = MultipartBody.Part.createFormData("photo",
                 file.getName(), photoBody);
@@ -218,30 +289,49 @@ public class DetailProdukActivity extends AppCompatActivity {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == PICK_IMAGE && resultCode == AppCompatActivity.RESULT_OK) {
-            if (data != null) {
-                uri = data.getData();
-                String a = FileUtils.getPath(mContext, uri);
-                System.out.println("URL >>>> " + a);
-
-                if (uri != null) {
-                    File file = FileUtils.getFile(mContext, uri);
-                    imageName = file.getName();
-                    try {
-                        Bitmap bitmap = BitmapFactory.decodeFile(file.getPath());
-                        bitmap.compress(Bitmap.CompressFormat.JPEG, 100,
-                                new FileOutputStream(file));
-                    } catch (Throwable t) {
-                        Log.e("ERROR", "Error compressing file." + t.toString());
-                        t.printStackTrace();
-                    }
-
-                    System.out.println("URL>>> " + file.getAbsoluteFile());
-                    uploadMultipart(file);
-
-                } else {
-                    Toast.makeText(mContext, "You must choose the image", Toast.LENGTH_SHORT).show();
-                }
+            if (data != null && data.getData() != null) {
+                uploadFromUri(data.getData());
+            } else {
+                Toast.makeText(mContext, "Gagal memilih gambar", Toast.LENGTH_SHORT).show();
             }
+        }
+    }
+
+    private void uploadFromUri(Uri uri) {
+        InputStream inputStream = null;
+        FileOutputStream fos = null;
+        try {
+            File cacheDir = getCacheDir();
+            String fileName = "upload_" + System.currentTimeMillis() + ".jpg";
+            final File tempFile = new File(cacheDir, fileName);
+
+            inputStream = getContentResolver().openInputStream(uri);
+            if (inputStream == null) {
+                Toast.makeText(mContext, "Gagal membaca gambar", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
+            if (bitmap == null) {
+                Toast.makeText(mContext, "Gagal decode gambar", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            fos = new FileOutputStream(tempFile);
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 90, fos);
+            fos.flush();
+
+            bitmap.recycle();
+
+            imageName = tempFile.getName();
+            uploadMultipart(tempFile);
+        } catch (Exception e) {
+            Log.e("debug", "Error uploading image", e);
+            progressDialog.dismiss();
+            Toast.makeText(mContext, "Gagal upload gambar", Toast.LENGTH_SHORT).show();
+        } finally {
+            try { if (inputStream != null) inputStream.close(); } catch (Exception ignored) {}
+            try { if (fos != null) fos.close(); } catch (Exception ignored) {}
         }
     }
 }

@@ -9,8 +9,6 @@ import android.text.Spanned;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
-import android.widget.SearchView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -47,10 +45,7 @@ public class ProdukFragment extends Fragment {
     private RecyclerView.Adapter adapter;
     private RecyclerView mRecycler;
     private RecyclerView.LayoutManager mLayoutManager;
-    private final SearchView searchView = null;
-    private SearchView.OnQueryTextListener queryTextListener;
-    AppCompatButton btn_add, btn_cari;
-    EditText ed_cari;
+    AppCompatButton btn_add;
     TabLayout tabLayout;
     ViewPager viewPager;
 

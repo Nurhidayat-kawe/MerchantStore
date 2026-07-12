@@ -8,7 +8,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.SearchView;
 
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.fragment.app.Fragment;
@@ -41,9 +40,6 @@ public class PesananFragment extends Fragment {
     private RecyclerView.Adapter mAdapter;
     private RecyclerView mRecycler;
     private RecyclerView.LayoutManager mLayoutManager;
-    private final SearchView searchView = null;
-    private SearchView.OnQueryTextListener queryTextListener;
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

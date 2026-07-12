@@ -9,7 +9,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.SearchView;
 import android.widget.Toast;
 
@@ -39,25 +38,21 @@ public class PelangganFragment extends Fragment {
     BaseApiService mApiService;
     SharedPrefManager sharedPrefManager;
     ProgressDialog progressDialog;
-    AppCompatButton btn_cari, btn_pelanggans;
-    EditText ed_cari;
+    AppCompatButton btn_pelanggans;
+    SearchView searchView;
     Context mContext;
     List<PelangganTop> pelanggans = new ArrayList<>();
     private RecyclerView.Adapter mAdapter;
     private RecyclerView mRecycler;
     private RecyclerView.LayoutManager mLayoutManager;
-    private final SearchView searchView = null;
-    private SearchView.OnQueryTextListener queryTextListener;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_pelanggan, container, false);
-        setHasOptionsMenu(true);
         mRecycler = view.findViewById(R.id.rv_event);
-        ed_cari = view.findViewById(R.id.ed_pelanggan_cari);
-        btn_cari = view.findViewById(R.id.btn_pelanggan_cari);
+        searchView = view.findViewById(R.id.search_pelanggan);
         btn_pelanggans = view.findViewById(R.id.btn_pelanggans);
         mContext = view.getContext();
         progressDialog = new ProgressDialog(mContext);
@@ -76,10 +71,17 @@ public class PelangganFragment extends Fragment {
         progressDialog.show();
         getPelanggan();
 
-        btn_cari.setOnClickListener(new View.OnClickListener() {
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
-            public void onClick(View view) {
-                getPelanggans(ed_cari.getText().toString());
+            public boolean onQueryTextSubmit(String query) {
+                getPelanggans(query);
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                getPelanggans(newText);
+                return true;
             }
         });
 

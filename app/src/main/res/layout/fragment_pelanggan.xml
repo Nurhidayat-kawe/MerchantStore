@@ -8,19 +8,16 @@
     android:background="@drawable/gradient_background2"
     tools:context=".fragment.HomeFragment">
 
-    <EditText
-        android:id="@+id/ed_pelanggan_cari"
+    <SearchView
+        android:id="@+id/search_pelanggan"
         android:layout_width="0dp"
-        android:layout_height="40dp"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="4dp"
-        android:background="@drawable/txt_round_left"
-        android:ems="10"
-        android:hint="Kata kunci"
-        android:inputType="textPersonName"
-        android:textColor="@color/white"
-        android:textSize="14sp"
-        app:layout_constraintEnd_toStartOf="@+id/btn_pelanggan_cari"
+        android:layout_height="48dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:iconifiedByDefault="false"
+        android:queryHint="Cari pelanggan..."
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -32,7 +29,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ed_pelanggan_cari">
+        app:layout_constraintTop_toBottomOf="@+id/search_pelanggan">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -46,27 +43,10 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:layout_conversion_absoluteHeight="731dp"
-                tools:layout_conversion_absoluteWidth="411dp">
-
-            </androidx.recyclerview.widget.RecyclerView>
+                app:layout_constraintTop_toTopOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
-
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btn_pelanggan_cari"
-        android:layout_width="wrap_content"
-        android:layout_height="40dp"
-        android:layout_marginTop="4dp"
-        android:layout_marginEnd="4dp"
-        android:background="@drawable/btn_round_yellow_right"
-        android:text="Cari"
-        android:textColor="@color/white"
-        android:textSize="14sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btn_pelanggans"

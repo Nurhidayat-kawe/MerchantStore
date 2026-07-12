@@ -89,11 +89,11 @@ public class UpdateProdukActivity extends AppCompatActivity {
         ed_desc.setText(intent.getStringExtra("desc"));
         txt_jml_point.setText(intent.getIntExtra("jml_point",0)+"");
         txt_jml_beli.setText(intent.getIntExtra("jml_beli", 0) + "");
-        txt_jml_beli2.setText(intent.getIntExtra("jml_beli3", 0) + "");
-        txt_jml_beli3.setText(intent.getIntExtra("jml_beli4", 0) + "");
+        txt_jml_beli2.setText(intent.getIntExtra("jml_beli2", 0) + "");
+        txt_jml_beli3.setText(intent.getIntExtra("jml_beli3", 0) + "");
         txt_harga_diskon.setText(intent.getStringExtra("harga_disc"));
-        txt_harga_diskon2.setText(intent.getStringExtra("harga_disc3"));
-        txt_harga_diskon3.setText(intent.getStringExtra("harga_disc4"));
+        txt_harga_diskon2.setText(intent.getStringExtra("harga_disc2"));
+        txt_harga_diskon3.setText(intent.getStringExtra("harga_disc3"));
         getKat();
         getSat();
 
@@ -105,8 +105,8 @@ public class UpdateProdukActivity extends AppCompatActivity {
                 harga_jual = ed_jual.getText().toString();
                 harga_beli = ed_beli.getText().toString();
                 desc = ed_desc.getText().toString();
-                kat = sp_kat.getSelectedItem().toString().substring(0, 2);
-                sat = sp_satuan.getSelectedItem().toString().substring(0, 2);
+                kat = sp_kat.getSelectedItem().toString().split(" - ")[0].trim();
+                sat = sp_satuan.getSelectedItem().toString().split(" - ")[0].trim();
                 user = sharedPrefManager.getSpIdPengguna();
                 harga_diskon = txt_harga_diskon.getText().toString();
                 jml_beli = txt_jml_beli.getText().toString();
@@ -114,7 +114,7 @@ public class UpdateProdukActivity extends AppCompatActivity {
                 jml_beli2 = txt_jml_beli2.getText().toString();
                 harga_diskon3 = txt_harga_diskon3.getText().toString();
                 jml_beli3 = txt_jml_beli3.getText().toString();
-                jml_point = Integer.parseInt(txt_jml_point.getText().toString());
+                jml_point = txt_jml_point.getText().toString().isEmpty() ? 0 : Integer.parseInt(txt_jml_point.getText().toString());
                 if (nama.isEmpty()) {
                     Toast.makeText(mContext, "Nama tidak boleh kosong!", Toast.LENGTH_SHORT).show();
                 } else if (harga_jual.isEmpty()) {
@@ -166,7 +166,13 @@ public class UpdateProdukActivity extends AppCompatActivity {
                         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                         sp_kat.setAdapter(adapter);
 
-                        sp_kat.setSelection(adapter.getPosition(intent.getStringExtra("kat")));
+                        String katExtra = intent.getStringExtra("kat");
+                        for (int i = 0; i < katStrings.size(); i++) {
+                            if (katStrings.get(i).equals(katExtra)) {
+                                sp_kat.setSelection(i);
+                                break;
+                            }
+                        }
                     }
                 }
             }
@@ -194,7 +200,13 @@ public class UpdateProdukActivity extends AppCompatActivity {
                         ArrayAdapter<String> adapter = new ArrayAdapter<>(mContext, android.R.layout.simple_spinner_item, satuanString);
                         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                         sp_satuan.setAdapter(adapter);
-                        sp_satuan.setSelection(adapter.getPosition(intent.getStringExtra("satuan")));
+                        String satExtra = intent.getStringExtra("satuan");
+                        for (int i = 0; i < satuanString.size(); i++) {
+                            if (satuanString.get(i).equals(satExtra)) {
+                                sp_satuan.setSelection(i);
+                                break;
+                            }
+                        }
                     }
                 }
             }

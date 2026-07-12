@@ -10,6 +10,7 @@ import com.yyaayyaatt.merchantstore.model.ResponseProduk;
 import com.yyaayyaatt.merchantstore.model.ResponseReferral;
 import com.yyaayyaatt.merchantstore.model.ResponseSatuan;
 import com.yyaayyaatt.merchantstore.model.ResponseSettings;
+import com.yyaayyaatt.merchantstore.model.ResponseStatusServer;
 import com.yyaayyaatt.merchantstore.model.ResponseTransaksi;
 import com.yyaayyaatt.merchantstore.model.ResponseUsers;
 
@@ -26,6 +27,13 @@ public interface BaseApiService {
 
     @GET("getStatusToko.php")
     Call<ResponseSettings> getStatusToko();
+
+    @GET("getServer.php")
+    Call<ResponseStatusServer> getServer();
+
+    @FormUrlEncoded
+    @POST("updateServer.php")
+    Call<ResponseStatusServer> updateServer(@Field("tenggang_point") String tenggang_point);
 
     @GET("getJamOperasional.php")
     Call<ResponseJamOperasional> getJamOperasional();

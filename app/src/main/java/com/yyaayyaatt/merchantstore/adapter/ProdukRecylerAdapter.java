@@ -96,8 +96,12 @@ public class ProdukRecylerAdapter extends RecyclerView.Adapter<ProdukRecylerAdap
                                 in.putExtra("beli", mList.get(position).getHarga_beli());
                                 in.putExtra("desc", mList.get(position).getDeskripsi());
                                 in.putExtra("jml_beli", mList.get(position).getJml_beli());
+                                in.putExtra("jml_beli2", mList.get(position).getJml_beli2());
+                                in.putExtra("jml_beli3", mList.get(position).getJml_beli3());
                                 in.putExtra("jml_point", mList.get(position).getJml_point());
                                 in.putExtra("harga_disc", mList.get(position).getHarga_disc());
+                                in.putExtra("harga_disc2", mList.get(position).getHarga_disc2());
+                                in.putExtra("harga_disc3", mList.get(position).getHarga_disc3());
                                 in.putExtra("satuan", mList.get(position).getId_satuan() + " - " + mList.get(position).getNama_satuan());
                                 in.putExtra("kat", mList.get(position).getId_kategori() + " - " + mList.get(position).getNama_kategori());
                                 ctx.startActivity(in);

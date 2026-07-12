@@ -98,19 +98,19 @@ public class AddProdukActivity extends AppCompatActivity {
             public void onClick(View view) {
                 id_produk = sdf.format(cal.getTime());
                 nama = ed_nama.getText().toString();
-                stok = Integer.parseInt(ed_stok.getText().toString());
+                stok = ed_stok.getText().toString().isEmpty() ? 0 : Integer.parseInt(ed_stok.getText().toString());
                 harga_grosir = ed_harga_grosir.getText().toString();
                 harga_grosir2 = ed_harga_grosir2.getText().toString();
                 harga_grosir3 = ed_harga_grosir3.getText().toString();
                 harga_beli = ed_harga_beli.getText().toString();
                 harga_satuan = ed_harga_satuan.getText().toString();
                 desc = ed_desc.getText().toString();
-                jml_point = Integer.parseInt(ed_jml_point.getText().toString());
-                min_beli = Integer.parseInt(ed_min_beli.getText().toString());
-                min_beli2 = Integer.parseInt(ed_min_beli2.getText().toString());
-                min_beli3 = Integer.parseInt(ed_min_beli3.getText().toString());
-                kat = sp_kat.getSelectedItem().toString().substring(0, 2);
-                sat = sp_satuan.getSelectedItem().toString().substring(0, 2);
+                jml_point = ed_jml_point.getText().toString().isEmpty() ? 0 : Integer.parseInt(ed_jml_point.getText().toString());
+                min_beli = ed_min_beli.getText().toString().isEmpty() ? 0 : Integer.parseInt(ed_min_beli.getText().toString());
+                min_beli2 = ed_min_beli2.getText().toString().isEmpty() ? 0 : Integer.parseInt(ed_min_beli2.getText().toString());
+                min_beli3 = ed_min_beli3.getText().toString().isEmpty() ? 0 : Integer.parseInt(ed_min_beli3.getText().toString());
+                kat = sp_kat.getSelectedItem().toString().split(" - ")[0].trim();
+                sat = sp_satuan.getSelectedItem().toString().split(" - ")[0].trim();
                 user = sharedPrefManager.getSpIdPengguna();
                 Toast.makeText(mContext, "user: " + user, Toast.LENGTH_SHORT).show();
                 progressDialog.setMessage("Tunggu...");

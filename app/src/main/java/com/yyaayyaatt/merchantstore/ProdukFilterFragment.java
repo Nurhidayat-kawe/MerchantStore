@@ -9,10 +9,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.SearchView;
 
-import androidx.appcompat.widget.AppCompatButton;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -50,10 +48,7 @@ public class ProdukFilterFragment extends Fragment {
     private RecyclerView.Adapter mAdapter;
     private RecyclerView mRecycler;
     private RecyclerView.LayoutManager mLayoutManager;
-    private final SearchView searchView = null;
-    private SearchView.OnQueryTextListener queryTextListener;
-    AppCompatButton btn_add, btn_cari;
-    EditText ed_cari;
+    SearchView searchView;
     String kat;
 
     private Parcelable recyclerViewState;
@@ -103,16 +98,14 @@ public class ProdukFilterFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_produk_filter, container, false);
         kat = getArguments().getString("title");
-        btn_cari = view.findViewById(R.id.btn_produk_cari);
-        ed_cari = view.findViewById(R.id.ed_produk_cari);
 
+        searchView = view.findViewById(R.id.search_produk);
         mRecycler = view.findViewById(R.id.rv_produk);
         mContext = view.getContext();
         progressDialog = new ProgressDialog(mContext);
         mApiService = UtilsApi.getAPIService();
         sharedPrefManager = new SharedPrefManager(mContext);
 
-        setHasOptionsMenu(true);
         mRecycler.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(mContext);
 
@@ -126,11 +119,17 @@ public class ProdukFilterFragment extends Fragment {
         progressDialog.show();
         getProduks("", kat);
 
-        btn_cari.setOnClickListener(new View.OnClickListener() {
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
-            public void onClick(View view) {
-                String key = ed_cari.getText().toString();
-                getProduks(key, kat);
+            public boolean onQueryTextSubmit(String query) {
+                getProduks(query, kat);
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                getProduks(newText, kat);
+                return true;
             }
         });
         return view;
